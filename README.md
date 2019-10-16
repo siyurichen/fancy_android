@@ -4,13 +4,8 @@ A new Flutter application.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+本项目是本人课余时间学习Flutter的练手项目，仅供学习参考：
 
-A few resources to get you started if this is your first Flutter project:
+1.api来源于玩Android开放api，https://www.wanandroid.com/blog/show/2  感谢玩Android的开发人员
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2.实现过程中Flutter Go提供了很大的帮组，感谢阿里Flutter Go团队
