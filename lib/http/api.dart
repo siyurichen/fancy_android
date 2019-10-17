@@ -3,4 +3,6 @@ class Api {
   static const String LATEST_ARTICLE_URL = 'article/list/';
   static const String LATEST_ARTICLE_PROJECT_URL = 'article/listproject/';
   static const String HOME_BANNER_URL = 'banner/json/';
+  static const String PROJECT_CATEGORY_URL = 'project/tree/json';
+  static const String PROJECT_URL = 'project/list/';
 }

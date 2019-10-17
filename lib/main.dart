@@ -1,4 +1,5 @@
 import 'package:fancy_android/page/home.dart';
+import 'package:fancy_android/page/project.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -34,18 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _list
       ..add(HomePage())
-      ..add(Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'You have pushed the button this many times:',
-              ),
-            ],
-          ),
-        ),
-      ))
+      ..add(ProjectPage())
       ..add(Container(
         child: Center(
           child: Column(

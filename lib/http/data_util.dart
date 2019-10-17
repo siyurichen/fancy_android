@@ -1,6 +1,8 @@
 import 'package:fancy_android/http/http_util.dart';
 import 'package:fancy_android/model/home_banner.dart' as banner;
 import 'package:fancy_android/model/latest_article.dart' as article;
+import 'package:fancy_android/model/project.dart' as project;
+import 'package:fancy_android/model/project_category.dart';
 
 import 'api.dart';
 
@@ -32,6 +34,29 @@ class DataUtil {
     var response = await HttpUtil.post(Api.HOME_BANNER_URL, null);
     try {
       return banner.HomeBanner.fromJson(response);
+    } catch (error) {
+      return response['errorMsg'];
+    }
+  }
+
+  //获取项目分类
+  static Future<ProjectCategory> getProjectCategory() async {
+    var response = await HttpUtil.get(Api.PROJECT_CATEGORY_URL, null);
+    try {
+      return ProjectCategory.fromJson(response);
+    } catch (error) {
+      return response['errorMsg'];
+    }
+  }
+
+  //获取项目
+  static Future<project.Data> getProject(int page, int categoryId) async {
+    var response;
+    try {
+      response = await HttpUtil.get(
+          "${Api.PROJECT_URL}$page/json?cid=$categoryId", null);
+
+      return project.Data.fromJson(response['data']);
     } catch (error) {
       return response['errorMsg'];
     }
