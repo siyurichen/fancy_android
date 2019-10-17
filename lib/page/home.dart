@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage>
         children: <Widget>[
           Text(
             article.title,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: SizeUtil.px(32),
@@ -305,6 +305,8 @@ class _HomePageState extends State<HomePage>
             alignment: Alignment.centerLeft,
             child: Text(
               article.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: SizeUtil.px(32),
                 color: Colors.black54,
@@ -317,6 +319,8 @@ class _HomePageState extends State<HomePage>
             margin: EdgeInsets.only(top: SizeUtil.px(10)),
             child: Text(
               article.desc,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: SizeUtil.px(28),
                 color: Colors.black54,
@@ -357,6 +361,7 @@ class _HomePageState extends State<HomePage>
     return Expanded(
       flex: 1,
       child: Container(
+        margin: EdgeInsets.only(left: SizeUtil.px(10)),
         width: SizeUtil.px(60),
         height: SizeUtil.px(200),
         child: FadeInImage.assetNetwork(

@@ -34,23 +34,14 @@ class ProjectPageState extends State<ProjectPage>
     return SizedBox(
       child: Scaffold(
         appBar: AppBar(
-            title: Container(
-              height: SizeUtil.px(90),
-              alignment: Alignment.center,
-              child: Text(
-                '项目',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            backgroundColor: Colors.blue,
-            bottom: TabBar(
-              isScrollable: true,
-              controller: tabController,
-              tabs: _buildTabs(),
-            )),
+          title: Text('所有项目'),
+          backgroundColor: Colors.blue,
+          bottom: TabBar(
+            isScrollable: true,
+            controller: tabController,
+            tabs: _buildTabs(),
+          ),
+        ),
         body: TabBarView(
           controller: tabController,
           children: _buildContent(),

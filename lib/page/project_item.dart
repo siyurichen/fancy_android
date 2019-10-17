@@ -58,17 +58,25 @@ class ProjectItemState extends State<ProjectItem>
 
   Widget _buildItem(project.Datas project) {
     return Card(
-      elevation: SizeUtil.px(5),
-      child: Container(
-        padding: EdgeInsets.all(SizeUtil.px(20)),
-        child: Row(
-          children: <Widget>[
-            _buildItemLeft(project),
-            _buildItemRight(project),
-          ],
-        ),
-      ),
-    );
+        elevation: SizeUtil.px(5),
+        child: InkWell(
+          child: Container(
+            padding: EdgeInsets.all(SizeUtil.px(20)),
+            child: Row(
+              children: <Widget>[
+                _buildItemLeft(project),
+                _buildItemRight(project),
+              ],
+            ),
+          ),
+          onTap: () {
+            _onTap(project);
+          },
+        ));
+  }
+
+  void _onTap(project.Datas project) {
+    print("mikechen:" + project.author);
   }
 
   Widget _buildItemLeft(project.Datas project) {
@@ -80,6 +88,8 @@ class ProjectItemState extends State<ProjectItem>
             alignment: Alignment.centerLeft,
             child: Text(
               project.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: SizeUtil.px(32),
                 color: Colors.black54,
@@ -92,6 +102,8 @@ class ProjectItemState extends State<ProjectItem>
             margin: EdgeInsets.only(top: SizeUtil.px(10)),
             child: Text(
               project.desc,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: SizeUtil.px(28),
                 color: Colors.black54,
@@ -132,10 +144,11 @@ class ProjectItemState extends State<ProjectItem>
     return Expanded(
       flex: 1,
       child: Container(
+        margin: EdgeInsets.only(left: SizeUtil.px(10)),
         width: SizeUtil.px(60),
         height: SizeUtil.px(200),
         child: FadeInImage.assetNetwork(
-          placeholder: 'images/icon_place_holder.png',
+          placeholder: '',
           image: project.envelopePic,
           fit: BoxFit.cover,
         ),

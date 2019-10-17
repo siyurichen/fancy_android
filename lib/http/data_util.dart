@@ -1,5 +1,6 @@
 import 'package:fancy_android/http/http_util.dart';
 import 'package:fancy_android/model/home_banner.dart' as banner;
+import 'package:fancy_android/model/knowledge_system_model.dart' as system;
 import 'package:fancy_android/model/latest_article.dart' as article;
 import 'package:fancy_android/model/project.dart' as project;
 import 'package:fancy_android/model/project_category.dart';
@@ -57,6 +58,17 @@ class DataUtil {
           "${Api.PROJECT_URL}$page/json?cid=$categoryId", null);
 
       return project.Data.fromJson(response['data']);
+    } catch (error) {
+      return response['errorMsg'];
+    }
+  }
+
+  //获取体系
+  static Future<system.KnowledgeSystemModel> getKnowledgeSystem() async {
+    var response;
+    try {
+      response = await HttpUtil.get(Api.KNOWLEDGE_SYSTEM_URL, null);
+      return system.KnowledgeSystemModel.fromJson(response);
     } catch (error) {
       return response['errorMsg'];
     }

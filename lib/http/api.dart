@@ -5,4 +5,5 @@ class Api {
   static const String HOME_BANNER_URL = 'banner/json/';
   static const String PROJECT_CATEGORY_URL = 'project/tree/json';
   static const String PROJECT_URL = 'project/list/';
+  static const String KNOWLEDGE_SYSTEM_URL = 'tree/json';
 }
