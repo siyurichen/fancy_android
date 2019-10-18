@@ -65,8 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('博文')),
           BottomNavigationBarItem(icon: Icon(Icons.message), title: Text('项目')),
-          BottomNavigationBarItem(icon: Icon(Icons.message), title: Text('体系')),
-          BottomNavigationBarItem(icon: Icon(Icons.message), title: Text('项目')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.category), title: Text('体系')),
+          BottomNavigationBarItem(icon: Icon(Icons.people), title: Text('我的')),
         ],
         currentIndex: _selectIndex,
         fixedColor: Colors.blue,

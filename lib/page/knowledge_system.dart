@@ -12,11 +12,30 @@ class KnowledgeSystem extends StatefulWidget {
 
 class KnowledgeSystemState extends State<KnowledgeSystem> {
   List<system.Data> systems = [];
+  ScrollController scrollController = new ScrollController();
+  bool isShowBtn = false; //点击回到顶部按钮是否显示
 
   @override
   void initState() {
     super.initState();
     getKnowledgeSystem();
+    scrollController.addListener(() {
+      if (scrollController.offset < 1000 && isShowBtn) {
+        setState(() {
+          isShowBtn = false;
+        });
+      } else if (scrollController.offset >= 1000 && isShowBtn == false) {
+        setState(() {
+          isShowBtn = true;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -30,15 +49,29 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
   }
 
   Widget _buildContent() {
-    return Container(
-      child: ListView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(SizeUtil.px(20)),
-        itemBuilder: (BuildContext context, int index) {
-          return _buildItem(systems[index]);
-        },
-        itemCount: systems.length,
-      ),
+    return Scaffold(
+      body: _buildListViewBuilder(),
+      floatingActionButton: isShowBtn
+          ? FloatingActionButton(
+              child: Icon(Icons.arrow_upward),
+              onPressed: () {
+                scrollController.animateTo(.0,
+                    duration: Duration(milliseconds: 300), curve: Curves.ease);
+              },
+            )
+          : null,
+    );
+  }
+
+  Widget _buildListViewBuilder() {
+    return ListView.builder(
+      shrinkWrap: true,
+      padding: EdgeInsets.all(SizeUtil.px(20)),
+      controller: scrollController,
+      itemBuilder: (BuildContext context, int index) {
+        return _buildItem(systems[index]);
+      },
+      itemCount: systems.length,
     );
   }
 
