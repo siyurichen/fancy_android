@@ -30,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectIndex = 0;
   List<Widget> _list = List();
+  List<String> _titles = ['首页', '所有项目', '知识体系', '我的'];
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _buildAppBar(),
       body: IndexedStack(
         index: _selectIndex,
         children: _list,
@@ -73,7 +75,31 @@ class _MyHomePageState extends State<MyHomePage> {
         fixedColor: Colors.blue,
         onTap: _onTap,
       ),
+      drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text('test'),
+              accountEmail: Text('test@126.com'),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: AssetImage('images/pic0.jpg'),
+              ),
+              margin: EdgeInsets.zero,
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  Widget _buildAppBar() {
+    if (_selectIndex == 0) {
+      return AppBar(
+        title: Text('首页'),
+      );
+    } else {
+      return null;
+    }
   }
 
   void _onTap(int index) {

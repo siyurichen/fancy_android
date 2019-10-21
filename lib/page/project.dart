@@ -32,9 +32,8 @@ class ProjectPageState extends State<ProjectPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('所有项目'),
+        title: _buildTabBar(),
         backgroundColor: Colors.blue,
-        bottom: _buildTabBar(),
       ),
       body: TabBarView(
         controller: _tabController,

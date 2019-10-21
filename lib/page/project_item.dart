@@ -1,4 +1,5 @@
 import 'package:fancy_android/http/data_util.dart';
+import 'package:fancy_android/page/BrowserWebView.dart';
 import 'package:fancy_android/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/project.dart' as project;
@@ -38,7 +39,8 @@ class ProjectItemState extends State<ProjectItem>
     DataUtil.getProject(page, categoryId).then((result) {
       if (result.datas.length <= 0) return;
       setState(() {
-        projects = result.datas;
+        projects.clear();
+        projects.addAll(result.datas);
       });
     });
   }
@@ -76,7 +78,14 @@ class ProjectItemState extends State<ProjectItem>
   }
 
   void _onTap(project.Datas project) {
-    print("mikechen:" + project.author);
+    Navigator.of(context).push(
+      new MaterialPageRoute(builder: (_) {
+        return new BrowserWebView(
+          url: project.link,
+          title: project.title,
+        );
+      }),
+    );
   }
 
   Widget _buildItemLeft(project.Datas project) {
@@ -147,10 +156,13 @@ class ProjectItemState extends State<ProjectItem>
         margin: EdgeInsets.only(left: 5),
         width: 60,
         height: 100,
-        child: FadeInImage.assetNetwork(
-          placeholder: '',
-          image: project.envelopePic,
-          fit: BoxFit.cover,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: FadeInImage.assetNetwork(
+            placeholder: '',
+            image: project.envelopePic,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

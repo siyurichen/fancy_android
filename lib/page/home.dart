@@ -1,6 +1,7 @@
 import 'package:fancy_android/http/data_util.dart';
 import 'package:fancy_android/model/home_banner.dart' as banner;
 import 'package:fancy_android/model/latest_article.dart';
+import 'package:fancy_android/page/BrowserWebView.dart';
 import 'package:fancy_android/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -155,16 +156,32 @@ class _HomePageState extends State<HomePage>
   Widget _buildItem(Datas article) {
     return Card(
       elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            _buildTitle(article),
-            _buildCategory(article),
-            _buildAuthorAndRefreshLabel(article),
-          ],
+      child: InkWell(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: <Widget>[
+              _buildTitle(article),
+              _buildCategory(article),
+              _buildAuthorAndRefreshLabel(article),
+            ],
+          ),
         ),
+        onTap: () {
+          _onTap(article.link, article.title);
+        },
       ),
+    );
+  }
+
+  void _onTap(String link, String title) {
+    Navigator.of(context).push(
+      new MaterialPageRoute(builder: (_) {
+        return new BrowserWebView(
+          url: link,
+          title: title,
+        );
+      }),
     );
   }
 
@@ -275,14 +292,19 @@ class _HomePageState extends State<HomePage>
   Widget _buildArticleProjectItem(Datas article) {
     return Card(
       elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          children: <Widget>[
-            _buildItemLeft(article),
-            _buildItemRight(article),
-          ],
+      child: InkWell(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            children: <Widget>[
+              _buildItemLeft(article),
+              _buildItemRight(article),
+            ],
+          ),
         ),
+        onTap: () {
+          _onTap(article.link, article.title);
+        },
       ),
     );
   }
