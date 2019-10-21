@@ -2,7 +2,6 @@ import 'package:fancy_android/http/data_util.dart';
 import 'package:fancy_android/model/home_banner.dart' as banner;
 import 'package:fancy_android/model/latest_article.dart';
 import 'package:fancy_android/util/date_util.dart';
-import 'package:fancy_android/util/size_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -88,6 +87,7 @@ class _HomePageState extends State<HomePage>
   getBanner() {
     DataUtil.getBanner().then((result) {
       setState(() {
+        if (result.data.length <= 0) return;
         banners = result.data;
       });
     });
@@ -98,16 +98,16 @@ class _HomePageState extends State<HomePage>
     return Swiper(
       itemBuilder: (BuildContext context, int index) {
         return Image.network(
-          banners[index].imagePath,
+          banners[index]?.imagePath,
           fit: BoxFit.fill,
         );
       },
-      itemCount: banners.length,
+      itemCount: banners?.length,
       pagination: SwiperPagination(
         builder: DotSwiperPaginationBuilder(
           color: Colors.lightBlue[50],
           activeColor: Colors.blue,
-          size: SizeUtil.px(16),
+          size: 8,
         ),
       ),
       controller: SwiperController(),
@@ -135,17 +135,8 @@ class _HomePageState extends State<HomePage>
 
   //Tab
   Widget _buildTabItem(String itemText) {
-    return Container(
-      alignment: Alignment.center,
-      height: SizeUtil.px(90),
-      child: Text(
-        itemText,
-        style: TextStyle(
-          fontSize: SizeUtil.px(30),
-          color: Colors.black54,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+    return Tab(
+      text: itemText,
     );
   }
 
@@ -153,7 +144,7 @@ class _HomePageState extends State<HomePage>
   Widget _buildLatestArticle(List<Datas> latestArticles) {
     return ListView.builder(
       shrinkWrap: true,
-      padding: EdgeInsets.all(SizeUtil.px(20)),
+      padding: EdgeInsets.all(10),
       itemBuilder: (BuildContext context, int index) {
         return _buildItem(latestArticles[index]);
       },
@@ -163,9 +154,9 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildItem(Datas article) {
     return Card(
-      elevation: SizeUtil.px(5),
+      elevation: 5,
       child: Container(
-        padding: EdgeInsets.all(SizeUtil.px(20)),
+        padding: EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
             _buildTitle(article),
@@ -187,7 +178,7 @@ class _HomePageState extends State<HomePage>
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: SizeUtil.px(32),
+              fontSize: 16,
               color: Colors.black54,
               fontWeight: FontWeight.bold,
             ),
@@ -200,10 +191,10 @@ class _HomePageState extends State<HomePage>
   Widget _buildCategory(Datas article) {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: SizeUtil.px(20)),
+      margin: EdgeInsets.only(top: 10),
       child: Text(
         '分类:' + article.superChapterName + ' / ' + article.chapterName,
-        style: TextStyle(fontSize: SizeUtil.px(24), color: Colors.black54),
+        style: TextStyle(fontSize: 12, color: Colors.black54),
       ),
     );
   }
@@ -211,7 +202,7 @@ class _HomePageState extends State<HomePage>
   Widget _buildAuthorAndRefreshLabel(Datas article) {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: SizeUtil.px(20)),
+      margin: EdgeInsets.only(top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -234,7 +225,7 @@ class _HomePageState extends State<HomePage>
           : '作者:' + article.author,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontSize: SizeUtil.px(24), color: Colors.black54),
+      style: TextStyle(fontSize: 12, color: Colors.black54),
     );
   }
 
@@ -242,13 +233,13 @@ class _HomePageState extends State<HomePage>
     if (article.fresh) {
       return Container(
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.red, width: SizeUtil.px(2))),
-        width: SizeUtil.px(40),
-        margin: EdgeInsets.only(right: SizeUtil.px(12)),
+        decoration:
+            BoxDecoration(border: Border.all(color: Colors.red, width: 1)),
+        width: 20,
+        margin: EdgeInsets.only(right: 12),
         child: Text(
           '新',
-          style: TextStyle(fontSize: SizeUtil.px(24), color: Colors.red),
+          style: TextStyle(fontSize: 12, color: Colors.red),
         ),
       );
     } else {
@@ -256,7 +247,7 @@ class _HomePageState extends State<HomePage>
         alignment: Alignment.center,
         child: Text(
           '',
-          style: TextStyle(fontSize: SizeUtil.px(24), color: Colors.red),
+          style: TextStyle(fontSize: 12, color: Colors.red),
         ),
       );
     }
@@ -265,7 +256,7 @@ class _HomePageState extends State<HomePage>
   Widget _buildUpdateTime(Datas article) {
     return Text(
       '时间:' + DateUtil.getTimeDuration(article.publishTime),
-      style: TextStyle(fontSize: SizeUtil.px(24), color: Colors.black54),
+      style: TextStyle(fontSize: 12, color: Colors.black54),
     );
   }
 
@@ -273,7 +264,7 @@ class _HomePageState extends State<HomePage>
   Widget _buildArticleProject(List<Datas> latestArticleProjects) {
     return ListView.builder(
       shrinkWrap: true,
-      padding: EdgeInsets.all(SizeUtil.px(20)),
+      padding: EdgeInsets.all(10),
       itemBuilder: (BuildContext context, int index) {
         return _buildArticleProjectItem(latestArticleProjects[index]);
       },
@@ -283,9 +274,9 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildArticleProjectItem(Datas article) {
     return Card(
-      elevation: SizeUtil.px(5),
+      elevation: 5,
       child: Container(
-        padding: EdgeInsets.all(SizeUtil.px(20)),
+        padding: EdgeInsets.all(10),
         child: Row(
           children: <Widget>[
             _buildItemLeft(article),
@@ -308,7 +299,7 @@ class _HomePageState extends State<HomePage>
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: SizeUtil.px(32),
+                fontSize: 16,
                 color: Colors.black54,
                 fontWeight: FontWeight.bold,
               ),
@@ -316,35 +307,35 @@ class _HomePageState extends State<HomePage>
           ),
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: SizeUtil.px(10)),
+            margin: EdgeInsets.only(top: 10),
             child: Text(
               article.desc,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: SizeUtil.px(28),
+                fontSize: 14,
                 color: Colors.black54,
               ),
             ),
           ),
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: SizeUtil.px(10)),
+            margin: EdgeInsets.only(top: 10),
             child: Row(
               children: <Widget>[
                 Text(
                   DateUtil.getTimeDuration(article.publishTime),
                   style: TextStyle(
-                    fontSize: SizeUtil.px(24),
+                    fontSize: 12,
                     color: Colors.black54,
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: SizeUtil.px(10)),
+                  padding: EdgeInsets.only(left: 10),
                   child: Text(
                     article.author,
                     style: TextStyle(
-                      fontSize: SizeUtil.px(24),
+                      fontSize: 12,
                       color: Colors.black54,
                     ),
                   ),
@@ -361,9 +352,9 @@ class _HomePageState extends State<HomePage>
     return Expanded(
       flex: 1,
       child: Container(
-        margin: EdgeInsets.only(left: SizeUtil.px(10)),
-        width: SizeUtil.px(60),
-        height: SizeUtil.px(200),
+        margin: EdgeInsets.only(left: 10),
+        width: 60,
+        height: 100,
         child: FadeInImage.assetNetwork(
           placeholder: 'images/icon_place_holder.png',
           image: article.envelopePic,

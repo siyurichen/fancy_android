@@ -1,6 +1,8 @@
 import 'package:fancy_android/http/http_util.dart';
 import 'package:fancy_android/model/home_banner.dart' as banner;
 import 'package:fancy_android/model/knowledge_system_model.dart' as system;
+import 'package:fancy_android/model/knowledge_system_detail_model.dart'
+    as systemDetail;
 import 'package:fancy_android/model/latest_article.dart' as article;
 import 'package:fancy_android/model/project.dart' as project;
 import 'package:fancy_android/model/project_category.dart';
@@ -69,6 +71,19 @@ class DataUtil {
     try {
       response = await HttpUtil.get(Api.KNOWLEDGE_SYSTEM_URL, null);
       return system.KnowledgeSystemModel.fromJson(response);
+    } catch (error) {
+      return response['errorMsg'];
+    }
+  }
+
+  //获取体系分类下的文章
+  static Future<systemDetail.Data> getKnowledgeSystemDetail(
+      int page, int id) async {
+    var response;
+    try {
+      response = await HttpUtil.get(
+          "${Api.KNOWLEDGE_SYSTEM_DETAIL_URL}$page/json?cid=$id", null);
+      return systemDetail.Data.fromJson(response['data']);
     } catch (error) {
       return response['errorMsg'];
     }

@@ -1,7 +1,6 @@
 import 'package:fancy_android/http/data_util.dart';
 import 'package:fancy_android/model/project_category.dart' as category;
 import 'package:fancy_android/page/project_item.dart';
-import 'package:fancy_android/util/size_util.dart';
 import 'package:flutter/material.dart';
 
 class ProjectPage extends StatefulWidget {
@@ -11,10 +10,10 @@ class ProjectPage extends StatefulWidget {
 
 class ProjectPageState extends State<ProjectPage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  TabController tabController;
+  TabController _tabController;
 
-  static List<category.Data> categories = [];
-  var _maxCachePageNums = 5;
+  static List<category.Data> _categories = [];
+  var _maxCachePageNum = 5;
   var _cachedPageNum = 0;
 
   @override
@@ -25,60 +24,67 @@ class ProjectPageState extends State<ProjectPage>
 
   @override
   void dispose() {
-    tabController.dispose();
+    _tabController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('所有项目'),
-          backgroundColor: Colors.blue,
-          bottom: TabBar(
-            isScrollable: true,
-            controller: tabController,
-            tabs: _buildTabs(),
-          ),
-        ),
-        body: TabBarView(
-          controller: tabController,
-          children: _buildContent(),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('所有项目'),
+        backgroundColor: Colors.blue,
+        bottom: _buildTabBar(),
       ),
+      body: TabBarView(
+        controller: _tabController,
+        children: _buildContent(),
+      ),
+    );
+  }
+
+  PreferredSizeWidget _buildTabBar() {
+    if (_categories.length <= 0) {
+      return null;
+    }
+    if (null == _tabController) {
+      _tabController = TabController(vsync: this, length: _categories.length);
+    }
+    return TabBar(
+      isScrollable: true,
+      controller: _tabController,
+      tabs: _buildTabs(),
     );
   }
 
   getProjectCategory() async {
     DataUtil.getProjectCategory().then((result) {
+      if (result.data.length <= 0) return;
       setState(() {
-        categories.clear();
-        categories.addAll(result.data);
-        if (null == tabController) {
-          tabController = TabController(vsync: this, length: categories.length);
-        }
+        result.data.forEach((_categoryItemModel) {
+          _categories.add(_categoryItemModel);
+        });
       });
     });
   }
 
   List<Widget> _buildTabs() {
-    return categories.map((category) {
+    return _categories?.map((category) {
       return Tab(
         text: category.name,
       );
-    }).toList();
+    })?.toList();
   }
 
   List<Widget> _buildContent() {
-    return categories?.map((category) {
+    return _categories?.map<Widget>((category) {
       return ProjectItem(
           page: 1, categoryId: category.id, keepAlive: _keepAlive());
     })?.toList();
   }
 
   bool _keepAlive() {
-    if (_cachedPageNum < _maxCachePageNums) {
+    if (_cachedPageNum < _maxCachePageNum) {
       _cachedPageNum++;
       return true;
     } else {

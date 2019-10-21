@@ -2,7 +2,6 @@ import 'package:fancy_android/http/data_util.dart';
 import 'package:fancy_android/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/project.dart' as project;
-import 'package:fancy_android/util/size_util.dart';
 
 class ProjectItem extends StatefulWidget {
   final int page;
@@ -37,6 +36,7 @@ class ProjectItemState extends State<ProjectItem>
 
   getProject(int page, int categoryId) async {
     DataUtil.getProject(page, categoryId).then((result) {
+      if (result.datas.length <= 0) return;
       setState(() {
         projects = result.datas;
       });
@@ -47,7 +47,7 @@ class ProjectItemState extends State<ProjectItem>
     return Container(
       child: ListView.builder(
         shrinkWrap: true,
-        padding: EdgeInsets.all(SizeUtil.px(20)),
+        padding: EdgeInsets.all(10),
         itemBuilder: (BuildContext context, int index) {
           return _buildItem(projects[index]);
         },
@@ -58,10 +58,10 @@ class ProjectItemState extends State<ProjectItem>
 
   Widget _buildItem(project.Datas project) {
     return Card(
-        elevation: SizeUtil.px(5),
+        elevation: 5,
         child: InkWell(
           child: Container(
-            padding: EdgeInsets.all(SizeUtil.px(20)),
+            padding: EdgeInsets.all(10),
             child: Row(
               children: <Widget>[
                 _buildItemLeft(project),
@@ -91,7 +91,7 @@ class ProjectItemState extends State<ProjectItem>
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: SizeUtil.px(32),
+                fontSize: 16,
                 color: Colors.black54,
                 fontWeight: FontWeight.bold,
               ),
@@ -99,35 +99,35 @@ class ProjectItemState extends State<ProjectItem>
           ),
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: SizeUtil.px(10)),
+            margin: EdgeInsets.only(top: 5),
             child: Text(
               project.desc,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: SizeUtil.px(28),
+                fontSize: 14,
                 color: Colors.black54,
               ),
             ),
           ),
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: SizeUtil.px(10)),
+            margin: EdgeInsets.only(top: 5),
             child: Row(
               children: <Widget>[
                 Text(
                   DateUtil.getTimeDuration(project.publishTime),
                   style: TextStyle(
-                    fontSize: SizeUtil.px(24),
+                    fontSize: 12,
                     color: Colors.black54,
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: SizeUtil.px(10)),
+                  padding: EdgeInsets.only(left: 5),
                   child: Text(
                     project.author,
                     style: TextStyle(
-                      fontSize: SizeUtil.px(24),
+                      fontSize: 12,
                       color: Colors.black54,
                     ),
                   ),
@@ -144,9 +144,9 @@ class ProjectItemState extends State<ProjectItem>
     return Expanded(
       flex: 1,
       child: Container(
-        margin: EdgeInsets.only(left: SizeUtil.px(10)),
-        width: SizeUtil.px(60),
-        height: SizeUtil.px(200),
+        margin: EdgeInsets.only(left: 5),
+        width: 60,
+        height: 100,
         child: FadeInImage.assetNetwork(
           placeholder: '',
           image: project.envelopePic,

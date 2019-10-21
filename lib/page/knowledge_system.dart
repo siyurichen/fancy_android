@@ -1,6 +1,6 @@
 import 'package:fancy_android/http/data_util.dart';
 import 'package:fancy_android/model/knowledge_system_model.dart' as system;
-import 'package:fancy_android/util/size_util.dart';
+import 'package:fancy_android/page/knowledge_detail.dart';
 import 'package:flutter/material.dart';
 
 class KnowledgeSystem extends StatefulWidget {
@@ -44,11 +44,11 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
       appBar: AppBar(
         title: Text('知识体系'),
       ),
-      body: _buildContent(),
+      body: _buildContent(context),
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(BuildContext context) {
     return Scaffold(
       body: _buildListViewBuilder(),
       floatingActionButton: isShowBtn
@@ -66,7 +66,7 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
   Widget _buildListViewBuilder() {
     return ListView.builder(
       shrinkWrap: true,
-      padding: EdgeInsets.all(SizeUtil.px(20)),
+      padding: EdgeInsets.all(10),
       controller: scrollController,
       itemBuilder: (BuildContext context, int index) {
         return _buildItem(systems[index]);
@@ -82,11 +82,11 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
         children: <Widget>[
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: SizeUtil.px(20)),
+            margin: EdgeInsets.only(top: 10),
             child: Text(
               data.name,
               style: TextStyle(
-                fontSize: SizeUtil.px(32),
+                fontSize: 16,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -94,11 +94,11 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: SizeUtil.px(20)),
+            margin: EdgeInsets.only(top: 10),
             child: Wrap(
               children: _buildWrapChildren(data),
-              runSpacing: SizeUtil.px(10),
-              spacing: SizeUtil.px(10),
+              runSpacing: 5,
+              spacing: 5,
             ),
           ),
           _buildItemGapLine(),
@@ -109,13 +109,13 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
 
   Widget _buildItemGapLine() {
     return Container(
-      margin: EdgeInsets.only(top: SizeUtil.px(20)),
+      margin: EdgeInsets.only(top: 10),
       child: Row(
         children: <Widget>[
           Expanded(
               flex: 1,
               child: Container(
-                height: SizeUtil.px(1),
+                height: 1,
                 color: Color(0xFFEAEAEA),
               )),
         ],
@@ -130,23 +130,31 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
   }
 
   Widget _buildLabel(system.Children children) {
-    return Container(
-      constraints: BoxConstraints(
-        minWidth: SizeUtil.px(80),
-      ),
-      padding: EdgeInsets.fromLTRB(
-          SizeUtil.px(16), SizeUtil.px(8), SizeUtil.px(16), SizeUtil.px(8)),
-      decoration: BoxDecoration(
-        color: Colors.blue[100],
-        borderRadius: BorderRadius.circular((20.0)),
-      ),
-      child: Text(
-        children.name,
-        style: TextStyle(
-          fontSize: SizeUtil.px(28),
-          color: Colors.black,
+    return GestureDetector(
+      child: Container(
+        constraints: BoxConstraints(
+          minWidth: 40,
+        ),
+        padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+        decoration: BoxDecoration(
+          color: Colors.blue[100],
+          borderRadius: BorderRadius.circular((20.0)),
+        ),
+        child: Text(
+          children.name,
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.black,
+          ),
         ),
       ),
+      onTap: () {
+        Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+          return new KnowledgeDetail(
+            id: children.id,
+          );
+        }));
+      },
     );
   }
 
