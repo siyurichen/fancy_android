@@ -1,25 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'project.g.dart';
+part 'project_model.g.dart';
 
 @JsonSerializable()
-class Project extends Object {
+class ProjectModel extends Object {
   Data data;
 
   int errorCode;
 
   String errorMsg;
 
-  Project(
+  ProjectModel(
     this.data,
     this.errorCode,
     this.errorMsg,
   );
 
-  factory Project.fromJson(Map<String, dynamic> srcJson) =>
-      _$ProjectFromJson(srcJson);
+  factory ProjectModel.fromJson(Map<String, dynamic> srcJson) =>
+      _$ProjectModelFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$ProjectToJson(this);
+  Map<String, dynamic> toJson() => _$ProjectModelToJson(this);
 }
 
 @JsonSerializable()

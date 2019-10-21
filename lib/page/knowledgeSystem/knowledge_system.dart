@@ -1,6 +1,6 @@
-import 'package:fancy_android/http/data_util.dart';
+import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/knowledge_system_model.dart' as system;
-import 'package:fancy_android/util/NavigatorUtil.dart';
+import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 
 class KnowledgeSystem extends StatefulWidget {
@@ -155,7 +155,7 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
   }
 
   getKnowledgeSystem() async {
-    DataUtil.getKnowledgeSystem().then((result) {
+    HttpMethods.getKnowledgeSystem().then((result) {
       setState(() {
         systems = result.data;
       });

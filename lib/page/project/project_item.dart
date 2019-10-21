@@ -1,9 +1,9 @@
-import 'package:fancy_android/http/data_util.dart';
-import 'package:fancy_android/page/BrowserWebView.dart';
-import 'package:fancy_android/util/NavigatorUtil.dart';
+import 'package:fancy_android/http/http_methods.dart';
+import 'package:fancy_android/page/browser_webView.dart';
+import 'package:fancy_android/util/navigator_util.dart';
 import 'package:fancy_android/util/date_util.dart';
 import 'package:flutter/material.dart';
-import 'package:fancy_android/model/project.dart' as project;
+import 'package:fancy_android/model/project_model.dart' as project;
 
 class ProjectItem extends StatefulWidget {
   final int page;
@@ -37,7 +37,7 @@ class ProjectItemState extends State<ProjectItem>
   }
 
   getProject(int page, int categoryId) async {
-    DataUtil.getProject(page, categoryId).then((result) {
+    HttpMethods.getProject(page, categoryId).then((result) {
       setState(() {
         projects.clear();
         projects.addAll(result?.datas);

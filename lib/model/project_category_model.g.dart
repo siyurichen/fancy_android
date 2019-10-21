@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'project_category.dart';
+part of 'project_category_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProjectCategory _$ProjectCategoryFromJson(Map<String, dynamic> json) {
-  return ProjectCategory(
+ProjectCategoryModel _$ProjectCategoryModelFromJson(Map<String, dynamic> json) {
+  return ProjectCategoryModel(
     (json['data'] as List)
         ?.map(
             (e) => e == null ? null : Data.fromJson(e as Map<String, dynamic>))
@@ -17,7 +17,8 @@ ProjectCategory _$ProjectCategoryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ProjectCategoryToJson(ProjectCategory instance) =>
+Map<String, dynamic> _$ProjectCategoryModelToJson(
+        ProjectCategoryModel instance) =>
     <String, dynamic>{
       'data': instance.data,
       'errorCode': instance.errorCode,

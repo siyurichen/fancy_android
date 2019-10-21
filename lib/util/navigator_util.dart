@@ -1,5 +1,5 @@
-import 'package:fancy_android/page/BrowserWebView.dart';
-import 'package:fancy_android/page/knowledge_detail.dart';
+import 'package:fancy_android/page/browser_webView.dart';
+import 'package:fancy_android/page/KnowledgeSystem/knowledge_detail.dart';
 import 'package:flutter/material.dart';
 
 class NavigatorUtil {

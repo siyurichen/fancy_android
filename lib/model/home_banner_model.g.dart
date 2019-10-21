@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_banner.dart';
+part of 'home_banner_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-HomeBanner _$HomeBannerFromJson(Map<String, dynamic> json) {
-  return HomeBanner(
+HomeBannerModel _$HomeBannerModelFromJson(Map<String, dynamic> json) {
+  return HomeBannerModel(
     (json['data'] as List)
         ?.map(
             (e) => e == null ? null : Data.fromJson(e as Map<String, dynamic>))
@@ -17,7 +17,7 @@ HomeBanner _$HomeBannerFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$HomeBannerToJson(HomeBanner instance) =>
+Map<String, dynamic> _$HomeBannerModelToJson(HomeBannerModel instance) =>
     <String, dynamic>{
       'data': instance.data,
       'errorCode': instance.errorCode,

@@ -1,6 +1,6 @@
-import 'package:fancy_android/page/home.dart';
-import 'package:fancy_android/page/knowledge_system.dart';
-import 'package:fancy_android/page/project.dart';
+import 'package:fancy_android/page/Home/home_page.dart';
+import 'package:fancy_android/page/KnowledgeSystem/knowledge_system.dart';
+import 'package:fancy_android/page/Project/project_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());

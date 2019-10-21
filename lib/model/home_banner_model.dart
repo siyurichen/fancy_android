@@ -1,25 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'home_banner.g.dart';
+part 'home_banner_model.g.dart';
 
 @JsonSerializable()
-class HomeBanner extends Object {
+class HomeBannerModel extends Object {
   List<Data> data;
 
   int errorCode;
 
   String errorMsg;
 
-  HomeBanner(
+  HomeBannerModel(
     this.data,
     this.errorCode,
     this.errorMsg,
   );
 
-  factory HomeBanner.fromJson(Map<String, dynamic> srcJson) =>
-      _$HomeBannerFromJson(srcJson);
+  factory HomeBannerModel.fromJson(Map<String, dynamic> srcJson) =>
+      _$HomeBannerModelFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$HomeBannerToJson(this);
+  Map<String, dynamic> toJson() => _$HomeBannerModelToJson(this);
 }
 
 @JsonSerializable()

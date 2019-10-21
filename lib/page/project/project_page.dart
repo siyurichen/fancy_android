@@ -1,6 +1,6 @@
-import 'package:fancy_android/http/data_util.dart';
-import 'package:fancy_android/model/project_category.dart' as category;
-import 'package:fancy_android/page/project_item.dart';
+import 'package:fancy_android/http/http_methods.dart';
+import 'package:fancy_android/model/project_category_model.dart' as category;
+import 'package:fancy_android/page/Project/project_item.dart';
 import 'package:flutter/material.dart';
 
 class ProjectPage extends StatefulWidget {
@@ -57,7 +57,7 @@ class ProjectPageState extends State<ProjectPage>
   }
 
   getProjectCategory() async {
-    DataUtil.getProjectCategory().then((result) {
+    HttpMethods.getProjectCategory().then((result) {
       if (result.data.length <= 0) return;
       setState(() {
         result.data.forEach((_categoryItemModel) {

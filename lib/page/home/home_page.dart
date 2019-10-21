@@ -1,8 +1,7 @@
-import 'package:fancy_android/http/data_util.dart';
-import 'package:fancy_android/model/home_banner.dart' as banner;
-import 'package:fancy_android/model/latest_article.dart';
-import 'package:fancy_android/page/BrowserWebView.dart';
-import 'package:fancy_android/util/NavigatorUtil.dart';
+import 'package:fancy_android/http/http_methods.dart';
+import 'package:fancy_android/model/home_banner_model.dart' as banner;
+import 'package:fancy_android/model/latest_article_model.dart';
+import 'package:fancy_android/util/navigator_util.dart';
 import 'package:fancy_android/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -87,7 +86,7 @@ class _HomePageState extends State<HomePage>
   }
 
   getBanner() {
-    DataUtil.getBanner().then((result) {
+    HttpMethods.getBanner().then((result) {
       setState(() {
         if (result.data.length <= 0) return;
         banners = result.data;
@@ -126,7 +125,7 @@ class _HomePageState extends State<HomePage>
   }
 
   getLatestArticle(int page) {
-    DataUtil.getLatestArticle(page).then((result) {
+    HttpMethods.getLatestArticle(page).then((result) {
       setState(() {
         latestArticles = result.datas;
       });
@@ -134,7 +133,7 @@ class _HomePageState extends State<HomePage>
   }
 
   getLatestArticleProject(int page) {
-    DataUtil.getLatestArticleProject(page).then((result) {
+    HttpMethods.getLatestArticleProject(page).then((result) {
       setState(() {
         latestArticleProjects = result.datas;
       });

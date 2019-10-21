@@ -4,7 +4,7 @@ import 'package:fancy_android/http/api.dart';
 
 var dio = new Dio(BaseOptions(baseUrl: Api.BASE_URL, connectTimeout: 15000));
 
-class HttpUtil {
+class Http {
   static Future get(String url, Map<String, dynamic> params) async {
     var response;
     if (params != null) {

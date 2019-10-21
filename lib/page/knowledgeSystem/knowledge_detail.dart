@@ -1,7 +1,7 @@
-import 'package:fancy_android/http/data_util.dart';
+import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/knowledge_system_detail_model.dart'
     as systemDetail;
-import 'package:fancy_android/util/NavigatorUtil.dart';
+import 'package:fancy_android/util/navigator_util.dart';
 import 'package:fancy_android/util/date_util.dart';
 import 'package:flutter/material.dart';
 
@@ -21,9 +21,9 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
   List<systemDetail.Datas> _list = [];
   String title = '';
   int pageIndex = 0;
-  String loadMoreText = '';
-  int totalSize;
-  bool showMore = false;
+  String loadMoreText = ''; //加载更多或者到底文案
+  int totalSize; //数据总条数
+  bool showMore = false; //是否显示加载更多
   bool offState = false; //是否显示进入页面时的圆形进度条
 
   @override
@@ -42,11 +42,16 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
           loadMoreText = "正在加载更多数据...";
         });
         pageIndex++;
-        print("mikechen loadmore pageindex:" + pageIndex.toString());
         _getKnowledgeSystemDetail(pageIndex);
       }
     });
     _getKnowledgeSystemDetail(pageIndex);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -151,7 +156,7 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
 
   _getKnowledgeSystemDetail(int page) async {
     setState(() {
-      DataUtil.getKnowledgeSystemDetail(page, widget.id).then((result) {
+      HttpMethods.getKnowledgeSystemDetail(page, widget.id).then((result) {
         setState(() {
           if (!showMore) {
             _list.clear();

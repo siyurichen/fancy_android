@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'project.dart';
+part of 'latest_article_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Project _$ProjectFromJson(Map<String, dynamic> json) {
-  return Project(
+LatestArticleModel _$LatestArticleModelFromJson(Map<String, dynamic> json) {
+  return LatestArticleModel(
     json['data'] == null
         ? null
         : Data.fromJson(json['data'] as Map<String, dynamic>),
@@ -16,7 +16,8 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
+Map<String, dynamic> _$LatestArticleModelToJson(LatestArticleModel instance) =>
+    <String, dynamic>{
       'data': instance.data,
       'errorCode': instance.errorCode,
       'errorMsg': instance.errorMsg,
@@ -72,10 +73,7 @@ Datas _$DatasFromJson(Map<String, dynamic> json) {
     json['shareUser'] as String,
     json['superChapterId'] as int,
     json['superChapterName'] as String,
-    (json['tags'] as List)
-        ?.map(
-            (e) => e == null ? null : Tags.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    json['tags'] as List,
     json['title'] as String,
     json['type'] as int,
     json['userId'] as int,
@@ -114,16 +112,4 @@ Map<String, dynamic> _$DatasToJson(Datas instance) => <String, dynamic>{
       'userId': instance.userId,
       'visible': instance.visible,
       'zan': instance.zan,
-    };
-
-Tags _$TagsFromJson(Map<String, dynamic> json) {
-  return Tags(
-    json['name'] as String,
-    json['url'] as String,
-  );
-}
-
-Map<String, dynamic> _$TagsToJson(Tags instance) => <String, dynamic>{
-      'name': instance.name,
-      'url': instance.url,
     };

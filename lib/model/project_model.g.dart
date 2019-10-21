@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'latest_article.dart';
+part of 'project_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-LatestArticle _$LatestArticleFromJson(Map<String, dynamic> json) {
-  return LatestArticle(
+ProjectModel _$ProjectModelFromJson(Map<String, dynamic> json) {
+  return ProjectModel(
     json['data'] == null
         ? null
         : Data.fromJson(json['data'] as Map<String, dynamic>),
@@ -16,7 +16,7 @@ LatestArticle _$LatestArticleFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$LatestArticleToJson(LatestArticle instance) =>
+Map<String, dynamic> _$ProjectModelToJson(ProjectModel instance) =>
     <String, dynamic>{
       'data': instance.data,
       'errorCode': instance.errorCode,
