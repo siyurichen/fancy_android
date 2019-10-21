@@ -30,7 +30,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectIndex = 0;
   List<Widget> _list = List();
-  List<String> _titles = ['首页', '所有项目', '知识体系', '我的'];
 
   @override
   void initState() {

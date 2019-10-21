@@ -2,6 +2,7 @@ import 'package:fancy_android/http/data_util.dart';
 import 'package:fancy_android/model/home_banner.dart' as banner;
 import 'package:fancy_android/model/latest_article.dart';
 import 'package:fancy_android/page/BrowserWebView.dart';
+import 'package:fancy_android/util/NavigatorUtil.dart';
 import 'package:fancy_android/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -98,9 +99,15 @@ class _HomePageState extends State<HomePage>
   Widget _buildBanner() {
     return Swiper(
       itemBuilder: (BuildContext context, int index) {
-        return Image.network(
-          banners[index]?.imagePath,
-          fit: BoxFit.fill,
+        return GestureDetector(
+          child: Image.network(
+            banners[index]?.imagePath,
+            fit: BoxFit.fill,
+          ),
+          onTap: () {
+            NavigatorUtil.navigatorWeb(
+                context, banners[index]?.url, banners[index]?.title);
+          },
         );
       },
       itemCount: banners?.length,
@@ -168,20 +175,9 @@ class _HomePageState extends State<HomePage>
           ),
         ),
         onTap: () {
-          _onTap(article.link, article.title);
+          NavigatorUtil.navigatorWeb(context, article.link, article.title);
         },
       ),
-    );
-  }
-
-  void _onTap(String link, String title) {
-    Navigator.of(context).push(
-      new MaterialPageRoute(builder: (_) {
-        return new BrowserWebView(
-          url: link,
-          title: title,
-        );
-      }),
     );
   }
 
@@ -303,7 +299,7 @@ class _HomePageState extends State<HomePage>
           ),
         ),
         onTap: () {
-          _onTap(article.link, article.title);
+          NavigatorUtil.navigatorWeb(context, article.link, article.title);
         },
       ),
     );

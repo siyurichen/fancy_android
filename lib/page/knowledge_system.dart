@@ -1,6 +1,6 @@
 import 'package:fancy_android/http/data_util.dart';
 import 'package:fancy_android/model/knowledge_system_model.dart' as system;
-import 'package:fancy_android/page/knowledge_detail.dart';
+import 'package:fancy_android/util/NavigatorUtil.dart';
 import 'package:flutter/material.dart';
 
 class KnowledgeSystem extends StatefulWidget {
@@ -149,11 +149,7 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
         ),
       ),
       onTap: () {
-        Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
-          return new KnowledgeDetail(
-            id: children.id,
-          );
-        }));
+        NavigatorUtil.navigatorKnowledgeDetail(context, children.id);
       },
     );
   }

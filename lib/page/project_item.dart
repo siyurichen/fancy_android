@@ -1,5 +1,6 @@
 import 'package:fancy_android/http/data_util.dart';
 import 'package:fancy_android/page/BrowserWebView.dart';
+import 'package:fancy_android/util/NavigatorUtil.dart';
 import 'package:fancy_android/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/project.dart' as project;
@@ -37,10 +38,9 @@ class ProjectItemState extends State<ProjectItem>
 
   getProject(int page, int categoryId) async {
     DataUtil.getProject(page, categoryId).then((result) {
-      if (result.datas.length <= 0) return;
       setState(() {
         projects.clear();
-        projects.addAll(result.datas);
+        projects.addAll(result?.datas);
       });
     });
   }
@@ -72,20 +72,9 @@ class ProjectItemState extends State<ProjectItem>
             ),
           ),
           onTap: () {
-            _onTap(project);
+            NavigatorUtil.navigatorWeb(context, project.link, project.title);
           },
         ));
-  }
-
-  void _onTap(project.Datas project) {
-    Navigator.of(context).push(
-      new MaterialPageRoute(builder: (_) {
-        return new BrowserWebView(
-          url: project.link,
-          title: project.title,
-        );
-      }),
-    );
   }
 
   Widget _buildItemLeft(project.Datas project) {
