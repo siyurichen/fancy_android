@@ -1,6 +1,7 @@
 import 'package:fancy_android/page/Home/home_page.dart';
 import 'package:fancy_android/page/KnowledgeSystem/knowledge_system.dart';
 import 'package:fancy_android/page/Project/project_page.dart';
+import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -9,19 +10,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  MyHomePage({Key key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -55,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       body: IndexedStack(
         index: _selectIndex,
         children: _list,
@@ -81,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
               accountName: Text('test'),
               accountEmail: Text('test@126.com'),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('images/pic0.jpg'),
+                backgroundImage: AssetImage('images/icon_head.jpg'),
               ),
               margin: EdgeInsets.zero,
             ),
@@ -91,10 +89,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildAppBar() {
+  Widget _buildAppBar(BuildContext context) {
     if (_selectIndex == 0) {
       return AppBar(
-        title: Text('首页'),
+        centerTitle: true,
+        title: Text(
+          '首页',
+        ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                NavigatorUtil.navigatorSearch(context);
+              }),
+        ],
       );
     } else {
       return null;

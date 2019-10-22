@@ -1,30 +1,30 @@
 import 'package:fancy_android/http/http_methods.dart';
-import 'package:fancy_android/model/knowledge_system_detail_model.dart'
-    as systemDetail;
-import 'package:fancy_android/util/navigator_util.dart';
+import 'package:fancy_android/model/search_result_model.dart'
+    as searchResultModel;
 import 'package:fancy_android/util/date_util.dart';
+import 'package:fancy_android/util/navigator_util.dart';
+
 import 'package:flutter/material.dart';
 
-class KnowledgeDetail extends StatefulWidget {
-  final int id;
+class SearchResultPage extends StatefulWidget {
+  final String keyName;
 
-  KnowledgeDetail({Key key, this.id}) : super(key: key);
+  SearchResultPage({Key key, @required this.keyName}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return new KnowledgeDetailState();
-  }
+  State<StatefulWidget> createState() => new SearchResultPageState();
 }
 
-class KnowledgeDetailState extends State<KnowledgeDetail> {
+class SearchResultPageState extends State<SearchResultPage> {
   ScrollController _controller = new ScrollController();
-  List<systemDetail.Datas> _list = [];
-  String title = '';
+
+  Map<String, String> params = Map();
   int pageIndex = 0;
   String loadMoreText = ''; //加载更多或者到底文案
   int totalSize; //数据总条数
   bool showMore = false; //是否显示加载更多
   bool offState = false; //是否显示进入页面时的圆形进度条
+  List<searchResultModel.Datas> _list = [];
 
   @override
   void initState() {
@@ -32,21 +32,25 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
     _controller.addListener(() {
       var maxScroll = _controller.position.maxScrollExtent;
       var pixel = _controller.position.pixels;
-      if (maxScroll == pixel && _list.length == totalSize) {
-        setState(() {
-          showMore = false;
-          loadMoreText = "亲爱的，到底了~";
-        });
-      } else if (maxScroll == pixel) {
-        setState(() {
-          showMore = true;
-          loadMoreText = "正在加载更多数据...";
-        });
-        pageIndex++;
-        _getKnowledgeSystemDetail(pageIndex);
+      if (maxScroll == pixel) {
+        if (_list.length == totalSize) {
+          setState(() {
+            showMore = false;
+            loadMoreText = '亲爱的，到底了~';
+          });
+        } else {
+          {
+            setState(() {
+              showMore = true;
+              loadMoreText = '正在加载更多数据...';
+            });
+            pageIndex++;
+            searchArticle();
+          }
+        }
       }
     });
-    _getKnowledgeSystemDetail(pageIndex);
+    searchArticle();
   }
 
   @override
@@ -62,13 +66,13 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
       displacement: 10,
       onRefresh: () {
         pageIndex = 0;
-        return _getKnowledgeSystemDetail(pageIndex);
+        return searchArticle();
       },
       child: listView,
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.keyName),
       ),
       body: Stack(
         children: <Widget>[
@@ -156,22 +160,19 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
     );
   }
 
-  _getKnowledgeSystemDetail(int page) async {
-    setState(() {
-      HttpMethods.getKnowledgeSystemDetail(page, widget.id).then((result) {
-        setState(() {
-          if (!showMore) {
-            _list.clear();
-          }
-          _list.addAll(result.datas);
-          title = _list[0]?.chapterName;
-          totalSize = result?.total;
-          showMore = false;
-          offState = true;
-          if (result.datas.length == 0) {
-            loadMoreText = '亲爱的，到底了~';
-          }
-        });
+  searchArticle() async {
+    HttpMethods.searchArticle(pageIndex, widget.keyName).then((result) {
+      setState(() {
+        if (!showMore) {
+          _list.clear();
+        }
+        _list.addAll(result.data.datas);
+        totalSize = result?.data?.total;
+        showMore = false;
+        offState = true;
+        if (result.data.datas.length == 0) {
+          loadMoreText = '亲爱的，到底了~';
+        }
       });
     });
   }

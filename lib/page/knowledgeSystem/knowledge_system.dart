@@ -42,6 +42,7 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('知识体系'),
       ),
       body: _buildContent(context),
