@@ -18,6 +18,7 @@ class SearchPageState extends State<SearchPage> {
   List<commonUseWebsite.Data> commonUseWebsites = [];
 
   TextEditingController _controller = TextEditingController();
+  FocusNode focusNode = FocusNode();
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _buildSearchTitle(),
+        title: _buildSearchTitle(_controller),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.search),
@@ -40,9 +41,8 @@ class SearchPageState extends State<SearchPage> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                setState(() {
-                  _controller.clear();
-                });
+                _controller.clear();
+                focusNode.unfocus();
               }),
         ],
       ),
@@ -56,8 +56,9 @@ class SearchPageState extends State<SearchPage> {
     }));
   }
 
-  Widget _buildSearchTitle() {
+  Widget _buildSearchTitle(TextEditingController controller) {
     return TextField(
+      focusNode: focusNode,
       autofocus: true,
       textInputAction: TextInputAction.search,
       onSubmitted: (string) {},
@@ -70,7 +71,7 @@ class SearchPageState extends State<SearchPage> {
           color: Colors.white,
         ),
       ),
-      controller: _controller,
+      controller: controller,
     );
   }
 

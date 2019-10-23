@@ -89,7 +89,8 @@ class _HomePageState extends State<HomePage>
     HttpMethods.getBanner().then((result) {
       setState(() {
         if (result.data.length <= 0) return;
-        banners = result.data;
+        banners.clear();
+        banners.addAll(result.data);
       });
     });
   }
@@ -98,15 +99,9 @@ class _HomePageState extends State<HomePage>
   Widget _buildBanner() {
     return Swiper(
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          child: Image.network(
-            banners[index]?.imagePath,
-            fit: BoxFit.fill,
-          ),
-          onTap: () {
-            NavigatorUtil.navigatorWeb(
-                context, banners[index]?.url, banners[index]?.title);
-          },
+        return Image.network(
+          banners[index]?.imagePath,
+          fit: BoxFit.fill,
         );
       },
       itemCount: banners?.length,
@@ -119,8 +114,14 @@ class _HomePageState extends State<HomePage>
       ),
       controller: SwiperController(),
       scrollDirection: Axis.horizontal,
-      autoplay: true,
+      //没有请求到数据时设置为不自动播放，否则会连续快速滚动
+      autoplay: banners.isNotEmpty,
       autoplayDelay: 5000,
+      loop: true,
+      onTap: (int index) {
+        NavigatorUtil.navigatorWeb(
+            context, banners[index]?.url, banners[index]?.title);
+      },
     );
   }
 

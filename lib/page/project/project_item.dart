@@ -1,5 +1,4 @@
 import 'package:fancy_android/http/http_methods.dart';
-import 'package:fancy_android/page/browser_webView.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:fancy_android/util/date_util.dart';
 import 'package:flutter/material.dart';
