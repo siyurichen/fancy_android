@@ -1,19 +1,20 @@
 import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
-import 'package:fancy_android/model/project_category_model.dart' as category;
+import 'package:fancy_android/model/we_chat_article_category.dart'
+    as weChatArticle;
 import 'package:fancy_android/page/article/article_list_page.dart';
 import 'package:flutter/material.dart';
 
-class ProjectPage extends StatefulWidget {
+class WeChatArticlePage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new ProjectPageState();
+  State<StatefulWidget> createState() => new WeChatArticlePageState();
 }
 
-class ProjectPageState extends State<ProjectPage>
+class WeChatArticlePageState extends State<WeChatArticlePage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
 
-  static List<category.Data> _categories = [];
+  static List<weChatArticle.Data> _categories = [];
   var _maxCachePageNum = 5;
   var _cachedPageNum = 0;
 
@@ -58,7 +59,7 @@ class ProjectPageState extends State<ProjectPage>
   }
 
   getProjectCategory() async {
-    HttpMethods.getProjectCategory().then((result) {
+    HttpMethods.getWeChatArticleCategory().then((result) {
       if (result.data.length <= 0) return;
       setState(() {
         result.data.forEach((_categoryItemModel) {
@@ -81,9 +82,9 @@ class ProjectPageState extends State<ProjectPage>
       return new ArticleListPage(
         request: (page) {
           return HttpMethods.getArticle(
-              "${Api.PROJECT_URL}$page/json?cid=${category.id}");
+              "${Api.WE_CHAT_ARTICLE_URL}${category.id}/$page/json");
         },
-        itemType: 2,
+        itemType: 1,
         keepAlive: _keepAlive(),
         showAppBar: false,
         startPageIndex: 1,

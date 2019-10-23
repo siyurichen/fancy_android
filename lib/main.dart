@@ -1,6 +1,7 @@
 import 'package:fancy_android/page/Home/home_page.dart';
 import 'package:fancy_android/page/KnowledgeSystem/knowledge_system.dart';
 import 'package:fancy_android/page/Project/project_page.dart';
+import 'package:fancy_android/page/wechat/wechat_article.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 
@@ -36,18 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ..add(HomePage())
       ..add(ProjectPage())
       ..add(KnowledgeSystem())
-      ..add(Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'You have pushed the button this many times:',
-              ),
-            ],
-          ),
-        ),
-      ));
+      ..add(WeChatArticlePage());
   }
 
   @override
@@ -62,11 +52,12 @@ class _MyHomePageState extends State<MyHomePage> {
         type: BottomNavigationBarType.fixed,
         iconSize: 24,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('博文')),
-          BottomNavigationBarItem(icon: Icon(Icons.message), title: Text('项目')),
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('主页')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.library_books), title: Text('发现')),
           BottomNavigationBarItem(
               icon: Icon(Icons.category), title: Text('体系')),
-          BottomNavigationBarItem(icon: Icon(Icons.people), title: Text('我的')),
+          BottomNavigationBarItem(icon: Icon(Icons.people), title: Text('公众号')),
         ],
         currentIndex: _selectIndex,
         fixedColor: Colors.blue,

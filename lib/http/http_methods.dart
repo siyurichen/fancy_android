@@ -6,6 +6,7 @@ import 'package:fancy_android/model/hot_search_key_model.dart' as hotSearchKey;
 import 'package:fancy_android/model/knowledge_system_model.dart' as system;
 import 'package:fancy_android/model/latest_article_model.dart' as article;
 import 'package:fancy_android/model/project_category_model.dart';
+import 'package:fancy_android/model/we_chat_article_category.dart';
 
 import 'api.dart';
 
@@ -79,6 +80,16 @@ class HttpMethods {
     try {
       response = await Http.get(url, null);
       return article.Data.fromJson(response['data']);
+    } catch (error) {
+      return response['errorMsg'];
+    }
+  }
+
+  //获取公众号分类
+  static Future<WeChatArticleCategory> getWeChatArticleCategory() async {
+    var response = await Http.get(Api.WE_CHAT_ARTICLE_CATEGORY_URL, null);
+    try {
+      return WeChatArticleCategory.fromJson(response);
     } catch (error) {
       return response['errorMsg'];
     }

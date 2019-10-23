@@ -6,16 +6,18 @@ typedef Future<article.Data> RequestData(int page);
 
 class ArticleListPage extends StatefulWidget {
   final RequestData request;
-  final int itemType;
+  final int itemType; //根据不同type绘制不同的ListView Item
   final bool keepAlive;
-  final bool showAppBar;
+  final bool showAppBar; //是否展示AppBar
+  final int startPageIndex; //列表数据默认从哪一页开始（0 or 1）
 
   ArticleListPage(
       {Key key,
       @required this.request,
       @required this.itemType,
       this.keepAlive = false,
-      this.showAppBar = true})
+      this.showAppBar = true,
+      this.startPageIndex = 0})
       : super(key: key);
 
   @override
@@ -28,7 +30,7 @@ class ArticleListPageState extends State<ArticleListPage> {
   ScrollController _controller = new ScrollController();
   List<article.Datas> _list = [];
   String title = '';
-  int pageIndex = 0;
+  int pageIndex;
   String loadMoreText = ''; //加载更多或者到底文案
   int totalSize; //数据总条数
   bool showMore = false; //是否显示加载更多
@@ -51,10 +53,11 @@ class ArticleListPageState extends State<ArticleListPage> {
           loadMoreText = "正在加载更多数据...";
         });
         pageIndex++;
-        _getArticle(pageIndex);
+        _getArticle();
       }
     });
-    _getArticle(pageIndex);
+    pageIndex = (widget.startPageIndex == 0) ? 0 : widget.startPageIndex;
+    _getArticle();
   }
 
   @override
@@ -70,7 +73,7 @@ class ArticleListPageState extends State<ArticleListPage> {
       displacement: 10,
       onRefresh: () {
         pageIndex = 0;
-        return _getArticle(pageIndex);
+        return _getArticle();
       },
       child: listView,
     );
@@ -128,9 +131,9 @@ class ArticleListPageState extends State<ArticleListPage> {
     );
   }
 
-  _getArticle(int page) async {
+  _getArticle() async {
     setState(() {
-      widget.request(page).then((result) {
+      widget.request(pageIndex).then((result) {
         setState(() {
           if (!showMore) {
             _list.clear();

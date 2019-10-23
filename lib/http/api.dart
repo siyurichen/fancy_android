@@ -10,4 +10,6 @@ class Api {
   static const String HOT_SEARCH_KEY_URL = 'hotkey/json/';
   static const String COMMON_USE_WEBSITE_URL = 'friend/json/';
   static const String SEARCH_BY_HOT_KEY_URL = 'article/query/';
+  static const String WE_CHAT_ARTICLE_CATEGORY_URL = 'wxarticle/chapters/json/';
+  static const String WE_CHAT_ARTICLE_URL = 'wxarticle/list/';
 }
