@@ -1,63 +1,71 @@
-import 'package:fancy_android/http/http_methods.dart';
-import 'package:fancy_android/util/navigator_util.dart';
 import 'package:fancy_android/util/date_util.dart';
+import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
-import 'package:fancy_android/model/project_model.dart' as project;
+import 'package:fancy_android/model/latest_article_model.dart' as article;
 
-class ProjectItem extends StatefulWidget {
-  final int page;
-  final int categoryId;
-  final bool keepAlive;
+class ArticleItemPage extends StatelessWidget {
+  final int itemType; //1:体系、搜索结果页的item布局 2：项目分类的页的item布局
+  final article.Datas articleModel;
 
-  ProjectItem({Key key, this.page, this.categoryId, this.keepAlive = false})
+  ArticleItemPage(
+      {Key key, @required this.articleModel, @required this.itemType})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return new ProjectItemState();
-  }
-}
-
-class ProjectItemState extends State<ProjectItem>
-    with AutomaticKeepAliveClientMixin {
-  static List<project.Datas> projects = [];
-
-  @override
-  void initState() {
-    super.initState();
-    getProject(widget.page, widget.categoryId);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildPage(),
-    );
+    return _buildListViewItem(context);
   }
 
-  getProject(int page, int categoryId) async {
-    HttpMethods.getProject(page, categoryId).then((result) {
-      setState(() {
-        projects.clear();
-        projects.addAll(result?.datas);
-      });
-    });
+  Widget _buildListViewItem(BuildContext context) {
+    if (itemType == 1) {
+      return _buildItem(context);
+    }
+    return _buildItem1(context);
   }
 
-  Widget _buildPage() {
-    return Container(
-      child: ListView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(10),
-        itemBuilder: (BuildContext context, int index) {
-          return _buildItem(projects[index]);
+  Widget _buildItem(BuildContext context) {
+    return Card(
+      elevation: 5,
+      child: InkWell(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  articleModel?.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(top: 6),
+                child: Text(DateUtil.getTimeDuration(articleModel.publishTime)),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(top: 6),
+                child: Text(articleModel.superChapterName +
+                    '/' +
+                    articleModel.chapterName),
+              ),
+            ],
+          ),
+        ),
+        onTap: () {
+          NavigatorUtil.navigatorWeb(
+              context, articleModel?.link, articleModel?.title);
         },
-        itemCount: projects.length,
       ),
     );
   }
 
-  Widget _buildItem(project.Datas project) {
+  Widget _buildItem1(BuildContext context) {
     return Card(
         elevation: 5,
         child: InkWell(
@@ -65,18 +73,19 @@ class ProjectItemState extends State<ProjectItem>
             padding: EdgeInsets.all(10),
             child: Row(
               children: <Widget>[
-                _buildItemLeft(project),
-                _buildItemRight(project),
+                _buildItemLeft(),
+                _buildItemRight(),
               ],
             ),
           ),
           onTap: () {
-            NavigatorUtil.navigatorWeb(context, project.link, project.title);
+            NavigatorUtil.navigatorWeb(
+                context, articleModel.link, articleModel.title);
           },
         ));
   }
 
-  Widget _buildItemLeft(project.Datas project) {
+  Widget _buildItemLeft() {
     return Expanded(
       flex: 3,
       child: Column(
@@ -84,7 +93,7 @@ class ProjectItemState extends State<ProjectItem>
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              project.title,
+              articleModel.title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -98,7 +107,7 @@ class ProjectItemState extends State<ProjectItem>
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(top: 5),
             child: Text(
-              project.desc,
+              articleModel.desc,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -113,7 +122,7 @@ class ProjectItemState extends State<ProjectItem>
             child: Row(
               children: <Widget>[
                 Text(
-                  DateUtil.getTimeDuration(project.publishTime),
+                  DateUtil.getTimeDuration(articleModel.publishTime),
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.black54,
@@ -122,7 +131,7 @@ class ProjectItemState extends State<ProjectItem>
                 Container(
                   padding: EdgeInsets.only(left: 5),
                   child: Text(
-                    project.author,
+                    articleModel.author,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.black54,
@@ -137,7 +146,7 @@ class ProjectItemState extends State<ProjectItem>
     );
   }
 
-  Widget _buildItemRight(project.Datas project) {
+  Widget _buildItemRight() {
     return Expanded(
       flex: 1,
       child: Container(
@@ -148,14 +157,11 @@ class ProjectItemState extends State<ProjectItem>
           borderRadius: BorderRadius.circular(4),
           child: FadeInImage.assetNetwork(
             placeholder: '',
-            image: project.envelopePic,
+            image: articleModel.envelopePic,
             fit: BoxFit.cover,
           ),
         ),
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => widget.keepAlive;
 }

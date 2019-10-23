@@ -1,3 +1,4 @@
+import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/home_banner_model.dart' as banner;
 import 'package:fancy_android/model/latest_article_model.dart';
@@ -126,7 +127,8 @@ class _HomePageState extends State<HomePage>
   }
 
   getLatestArticle(int page) {
-    HttpMethods.getLatestArticle(page).then((result) {
+    HttpMethods.getArticle("${Api.LATEST_ARTICLE_URL}$page/json")
+        .then((result) {
       setState(() {
         latestArticles = result.datas;
       });
@@ -134,7 +136,8 @@ class _HomePageState extends State<HomePage>
   }
 
   getLatestArticleProject(int page) {
-    HttpMethods.getLatestArticleProject(page).then((result) {
+    HttpMethods.getArticle("${Api.LATEST_ARTICLE_PROJECT_URL}$page/json")
+        .then((result) {
       setState(() {
         latestArticleProjects = result.datas;
       });

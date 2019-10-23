@@ -2,7 +2,6 @@ import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/common_use_website_model.dart'
     as commonUseWebsite;
 import 'package:fancy_android/model/hot_search_key_model.dart' as hotSearchKey;
-import 'package:fancy_android/page/search/search_result_page.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 
@@ -51,9 +50,7 @@ class SearchPageState extends State<SearchPage> {
   }
 
   void _search(String keyName) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
-      return new SearchResultPage(keyName: keyName);
-    }));
+    NavigatorUtil.navigatorSearchResult(context, keyName);
   }
 
   Widget _buildSearchTitle(TextEditingController controller) {

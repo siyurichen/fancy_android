@@ -1,24 +1,32 @@
-import 'package:fancy_android/http/http_methods.dart';
-import 'package:fancy_android/model/knowledge_system_detail_model.dart'
-    as systemDetail;
-import 'package:fancy_android/util/navigator_util.dart';
-import 'package:fancy_android/util/date_util.dart';
+import 'package:fancy_android/model/latest_article_model.dart' as article;
+import 'package:fancy_android/page/article/article_item_page.dart';
 import 'package:flutter/material.dart';
 
-class KnowledgeDetail extends StatefulWidget {
-  final int id;
+typedef Future<article.Data> RequestData(int page);
 
-  KnowledgeDetail({Key key, this.id}) : super(key: key);
+class ArticleListPage extends StatefulWidget {
+  final RequestData request;
+  final int itemType;
+  final bool keepAlive;
+  final bool showAppBar;
+
+  ArticleListPage(
+      {Key key,
+      @required this.request,
+      @required this.itemType,
+      this.keepAlive = false,
+      this.showAppBar = true})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new KnowledgeDetailState();
+    return new ArticleListPageState();
   }
 }
 
-class KnowledgeDetailState extends State<KnowledgeDetail> {
+class ArticleListPageState extends State<ArticleListPage> {
   ScrollController _controller = new ScrollController();
-  List<systemDetail.Datas> _list = [];
+  List<article.Datas> _list = [];
   String title = '';
   int pageIndex = 0;
   String loadMoreText = ''; //加载更多或者到底文案
@@ -43,10 +51,10 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
           loadMoreText = "正在加载更多数据...";
         });
         pageIndex++;
-        _getKnowledgeSystemDetail(pageIndex);
+        _getArticle(pageIndex);
       }
     });
-    _getKnowledgeSystemDetail(pageIndex);
+    _getArticle(pageIndex);
   }
 
   @override
@@ -62,14 +70,16 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
       displacement: 10,
       onRefresh: () {
         pageIndex = 0;
-        return _getKnowledgeSystemDetail(pageIndex);
+        return _getArticle(pageIndex);
       },
       child: listView,
     );
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: widget.showAppBar
+          ? AppBar(
+              title: Text(title),
+            )
+          : null,
       body: Stack(
         children: <Widget>[
           refreshIndicator,
@@ -93,57 +103,19 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
       },
       itemCount: _list.length + 1,
       controller: _controller,
+      //解决item太少不足一屏的时候不能下拉刷新的问题
+      physics: new AlwaysScrollableScrollPhysics(),
     );
   }
 
   Widget _buildRow(BuildContext context, int index) {
     if (index < _list.length) {
-      return _buildItem(context, index);
+      return ArticleItemPage(
+        articleModel: _list[index],
+        itemType: widget.itemType,
+      );
     }
     return _buildProgressMoreIndicator();
-  }
-
-  Widget _buildItem(BuildContext context, int index) {
-    return Card(
-      elevation: 5,
-      child: InkWell(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  _list[index]?.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(top: 6),
-                child:
-                    Text(DateUtil.getTimeDuration(_list[index]?.publishTime)),
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(top: 6),
-                child: Text(_list[index].superChapterName +
-                    '/' +
-                    _list[index].chapterName),
-              ),
-            ],
-          ),
-        ),
-        onTap: () {
-          NavigatorUtil.navigatorWeb(
-              context, _list[index]?.link, _list[index]?.title);
-        },
-      ),
-    );
   }
 
   Widget _buildProgressMoreIndicator() {
@@ -156,9 +128,9 @@ class KnowledgeDetailState extends State<KnowledgeDetail> {
     );
   }
 
-  _getKnowledgeSystemDetail(int page) async {
+  _getArticle(int page) async {
     setState(() {
-      HttpMethods.getKnowledgeSystemDetail(page, widget.id).then((result) {
+      widget.request(page).then((result) {
         setState(() {
           if (!showMore) {
             _list.clear();
