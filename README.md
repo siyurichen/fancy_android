@@ -8,6 +8,6 @@ A new Flutter application.
 
 1.api来源于玩Android开放api，https://www.wanandroid.com/blog/show/2  感谢鸿洋大神的开源
 
-2.实现过程中Flutter Go提供了很大的帮助，感谢阿里Flutter Go团队
+2.实现过程中Flutter Go提供了很大的帮助，感谢阿里Flutter Go团队的开源
 
-3.ListView的封装借鉴了https://github.com/hurshi/wanandroid，感谢hurshi同学
+3.ListView的封装借鉴了https://github.com/hurshi/wanandroid 感谢hurshi同学的开源
