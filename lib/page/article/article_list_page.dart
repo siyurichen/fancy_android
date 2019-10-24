@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 typedef Future<article.Data> RequestData(int page);
 
 class ArticleListPage extends StatefulWidget {
+  final Widget header;
   final RequestData request;
   final int itemType; //根据不同type绘制不同的ListView Item
   final bool keepAlive;
@@ -13,6 +14,7 @@ class ArticleListPage extends StatefulWidget {
 
   ArticleListPage(
       {Key key,
+      this.header,
       @required this.request,
       @required this.itemType,
       this.keepAlive = false,
@@ -68,7 +70,8 @@ class ArticleListPageState extends State<ArticleListPage> {
 
   @override
   Widget build(BuildContext context) {
-    ListView listView = _buildListView(context);
+    int itemCount = _calculateItemCount();
+    ListView listView = _buildListView(context, itemCount);
     RefreshIndicator refreshIndicator = RefreshIndicator(
       displacement: 10,
       onRefresh: () {
@@ -97,14 +100,20 @@ class ArticleListPageState extends State<ArticleListPage> {
     );
   }
 
-  Widget _buildListView(BuildContext context) {
+  _calculateItemCount() {
+    return ((null == _list) ? 0 : _list.length) +
+        (null == widget.header ? 0 : 1) +
+        1;
+  }
+
+  Widget _buildListView(BuildContext context, int itemCount) {
     return ListView.builder(
       shrinkWrap: true,
       padding: EdgeInsets.all(5),
       itemBuilder: (BuildContext context, int index) {
         return _buildRow(context, index);
       },
-      itemCount: _list.length + 1,
+      itemCount: itemCount,
       controller: _controller,
       //解决item太少不足一屏的时候不能下拉刷新的问题
       physics: new AlwaysScrollableScrollPhysics(),
@@ -112,13 +121,16 @@ class ArticleListPageState extends State<ArticleListPage> {
   }
 
   Widget _buildRow(BuildContext context, int index) {
-    if (index < _list.length) {
+    if (index == 0 && widget.header != null) {
+      return widget.header;
+    } else if (index - (null == widget.header ? 0 : 1) >= _list.length) {
+      return _buildProgressMoreIndicator();
+    } else {
       return ArticleItemPage(
-        articleModel: _list[index],
+        articleModel: _list[index - (null == widget.header ? 0 : 1)],
         itemType: widget.itemType,
       );
     }
-    return _buildProgressMoreIndicator();
   }
 
   Widget _buildProgressMoreIndicator() {

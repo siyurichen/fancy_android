@@ -32,6 +32,7 @@ class WeChatArticlePageState extends State<WeChatArticlePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: _buildTabBar(),

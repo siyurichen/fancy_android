@@ -29,6 +29,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectIndex = 0;
   List<Widget> _list = List();
+  List<String> tabs = ['玩安卓', '发现', '知识体系', '公众号'];
 
   @override
   void initState() {
@@ -81,23 +82,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildAppBar(BuildContext context) {
-    if (_selectIndex == 0) {
-      return AppBar(
-        centerTitle: true,
-        title: Text(
-          '首页',
-        ),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                NavigatorUtil.navigatorSearch(context);
-              }),
-        ],
-      );
-    } else {
-      return null;
-    }
+    return AppBar(
+      centerTitle: true,
+      title: Text(
+        tabs[_selectIndex],
+      ),
+      actions: <Widget>[
+        IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              NavigatorUtil.navigatorSearch(context);
+            }),
+      ],
+    );
   }
 
   void _onTap(int index) {
