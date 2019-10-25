@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TabBar(
         controller: tabController,
         labelColor: Colors.black87,
@@ -92,9 +93,19 @@ class _HomePageState extends State<HomePage>
       width: screenWidth,
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return Image.network(
-            banners[index]?.imagePath,
-            fit: BoxFit.fill,
+          return Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: FadeInImage.assetNetwork(
+                placeholder: '',
+                image: banners[index]?.imagePath,
+                fit: BoxFit.cover,
+              ),
+            ),
           );
         },
         itemCount: banners?.length,
