@@ -28,7 +28,8 @@ class ArticleItemTypeThree extends StatelessWidget {
           ),
         ),
         onTap: () {
-          NavigatorUtil.navigatorWeb(context, article.link, article.title);
+          NavigatorUtil.navigatorWebWithCollect(context, article?.link, article?.title,
+              article?.collect, article?.id);
         },
       ),
     );

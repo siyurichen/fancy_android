@@ -1,27 +1,53 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:fancy_android/http/api.dart';
-
-var dio = new Dio(BaseOptions(baseUrl: Api.BASE_URL, connectTimeout: 15000));
+import 'package:fancy_android/util/sharedPreferences_util.dart';
 
 class Http {
-  static Future get(String url, Map<String, dynamic> params) async {
-    var response;
-    if (params != null) {
-      response = await dio.get(url, queryParameters: params);
-    } else {
-      response = await dio.get(url);
-    }
-    return response.data;
+  static const String GET = 'GET';
+  static const String POST = 'POST';
+  static Map<String, String> headerMap;
+  static Dio dio =
+      new Dio(BaseOptions(baseUrl: Api.BASE_URL, connectTimeout: 15000));
+  static bool isInit = false;
+
+  static void _addInterceptor() {
+    isInit = true;
+    dio.interceptors
+      ..add(LogInterceptor(
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: true,
+        responseBody: true,
+      ))
+      ..add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+        SharedPreferencesUtil.getCookies((cookies) {
+          String cookie = cookies.toString();
+          if (cookie != null && cookie.isNotEmpty) {
+            options.headers
+              ..addAll({
+                'Cookie': cookie,
+              });
+          }
+          return options;
+        });
+      }, onResponse: (Response response) async {
+        var cookies = response.headers['Set-Cookie'];
+        if (null != cookies && cookies.isNotEmpty) {
+          SharedPreferencesUtil.saveCookies(cookies.toString());
+        }
+      }));
   }
 
-  static Future post(String url, Map<String, dynamic> params) async {
+  static Future requestWithHeader(
+      String method, String url, Map<String, dynamic> params) async {
+    _addInterceptor();
     var response;
-    if (params != null) {
-      response = await dio.post(url, queryParameters: params);
+    if (GET == method) {
+      response = await dio.get(url, queryParameters: params);
     } else {
-      response = await dio.post(url);
+      response = await dio.post(url, queryParameters: params);
     }
-    return response.data;
+    return response;
   }
 }

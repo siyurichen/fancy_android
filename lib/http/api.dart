@@ -12,4 +12,9 @@ class Api {
   static const String SEARCH_BY_HOT_KEY_URL = 'article/query/';
   static const String WE_CHAT_ARTICLE_CATEGORY_URL = 'wxarticle/chapters/json/';
   static const String WE_CHAT_ARTICLE_URL = 'wxarticle/list/';
+  static const String LOGIN_URL = 'user/login/';
+  static const String REGISTER_URL = 'user/register/';
+  static const String FAVORITE_ARTICLE_LIST_URL = 'lg/collect/list/';
+  static const String FAVORITE_ARTICLE_URL = 'lg/collect/';
+  static const String CANCEL_FAVORITE_ARTICLE_URL = 'lg/uncollect_originId/';
 }

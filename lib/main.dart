@@ -1,8 +1,10 @@
+import 'package:fancy_android/model/user_model.dart';
 import 'package:fancy_android/page/Home/home_page.dart';
 import 'package:fancy_android/page/KnowledgeSystem/knowledge_system.dart';
 import 'package:fancy_android/page/Project/project_page.dart';
 import 'package:fancy_android/page/wechat/wechat_article.dart';
 import 'package:fancy_android/util/navigator_util.dart';
+import 'package:fancy_android/util/provider_util.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -10,11 +12,14 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ProviderUtil.init(
+      context: context,
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(),
       ),
-      home: MyHomePage(),
     );
   }
 }
@@ -68,12 +73,38 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text('test'),
+              accountName: ProviderUtil.consumer<UserModel>(
+                  builder: (context, userModel, child) {
+                return Text(userModel.data == null ? '' : userModel.data.nickname);
+              }),
               accountEmail: Text('test@126.com'),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('images/icon_head.jpg'),
+              currentAccountPicture: GestureDetector(
+                child: CircleAvatar(
+                  backgroundImage: AssetImage('images/icon_head.jpg'),
+                ),
+                onTap: () {
+                  NavigatorUtil.navigatorLogin(context);
+                },
               ),
               margin: EdgeInsets.zero,
+            ),
+            InkWell(
+              child: Container(
+                color: Colors.lightBlue,
+                height: 50,
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 15),
+                child: Text(
+                  '我的收藏',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              onTap: () {
+                NavigatorUtil.navigatorFavoriteArticle(context);
+              },
             ),
           ],
         ),

@@ -1,26 +1,25 @@
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'latest_article_model.g.dart';
+part 'favorite_article_model.g.dart';
 
 @JsonSerializable()
-class LatestArticleModel extends Object {
+class FavoriteArticleModel extends Object {
   Data data;
 
   int errorCode;
 
   String errorMsg;
 
-  LatestArticleModel(
+  FavoriteArticleModel(
     this.data,
     this.errorCode,
     this.errorMsg,
   );
 
-  factory LatestArticleModel.fromJson(Map<String, dynamic> srcJson) =>
-      _$LatestArticleModelFromJson(srcJson);
+  factory FavoriteArticleModel.fromJson(Map<String, dynamic> srcJson) =>
+      _$FavoriteArticleModelFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$LatestArticleModelToJson(this);
+  Map<String, dynamic> toJson() => _$FavoriteArticleModelToJson(this);
 }
 
 @JsonSerializable()
@@ -56,18 +55,12 @@ class Data extends Object {
 }
 
 @JsonSerializable()
-class Datas extends Object with ChangeNotifier {
-  String apkLink;
-
-  int audit;
-
+class Datas extends Object {
   String author;
 
   int chapterId;
 
   String chapterName;
-
-  bool collect;
 
   int courseId;
 
@@ -75,39 +68,19 @@ class Datas extends Object with ChangeNotifier {
 
   String envelopePic;
 
-  bool fresh;
-
   int id;
 
   String link;
 
   String niceDate;
 
-  String niceShareDate;
-
   String origin;
 
-  String prefix;
-
-  String projectLink;
+  int originId;
 
   int publishTime;
 
-  int selfVisible;
-
-  int shareDate;
-
-  String shareUser;
-
-  int superChapterId;
-
-  String superChapterName;
-
-  List<dynamic> tags;
-
   String title;
-
-  int type;
 
   int userId;
 
@@ -116,43 +89,23 @@ class Datas extends Object with ChangeNotifier {
   int zan;
 
   Datas(
-    this.apkLink,
-    this.audit,
     this.author,
     this.chapterId,
     this.chapterName,
-    this.collect,
     this.courseId,
     this.desc,
     this.envelopePic,
-    this.fresh,
     this.id,
     this.link,
     this.niceDate,
-    this.niceShareDate,
     this.origin,
-    this.prefix,
-    this.projectLink,
+    this.originId,
     this.publishTime,
-    this.selfVisible,
-    this.shareDate,
-    this.shareUser,
-    this.superChapterId,
-    this.superChapterName,
-    this.tags,
     this.title,
-    this.type,
     this.userId,
     this.visible,
     this.zan,
   );
-
-  Datas.origin();
-
-  setCollect(isCollect) {
-    collect = isCollect;
-    notifyListeners();
-  }
 
   factory Datas.fromJson(Map<String, dynamic> srcJson) =>
       _$DatasFromJson(srcJson);

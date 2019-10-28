@@ -27,8 +27,8 @@ class ArticleItemTypeTwo extends StatelessWidget {
             ),
           ),
           onTap: () {
-            NavigatorUtil.navigatorWeb(
-                context, articleModel.link, articleModel.title);
+            NavigatorUtil.navigatorWebWithCollect(context, articleModel?.link,
+                articleModel?.title, articleModel?.collect, articleModel?.id);
           },
         ));
   }
