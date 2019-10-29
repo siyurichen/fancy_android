@@ -8,7 +8,6 @@ class ArticleListPage extends StatefulWidget {
   final Widget header;
   final RequestData request;
   final int itemType; //根据不同type绘制不同的ListView Item
-  final bool keepAlive;
   final bool showAppBar; //是否展示AppBar
   final int startPageIndex; //列表数据默认从哪一页开始（0 or 1）
 
@@ -17,7 +16,6 @@ class ArticleListPage extends StatefulWidget {
       this.header,
       @required this.request,
       @required this.itemType,
-      this.keepAlive = false,
       this.showAppBar = true,
       this.startPageIndex = 0})
       : super(key: key);
@@ -28,7 +26,8 @@ class ArticleListPage extends StatefulWidget {
   }
 }
 
-class ArticleListPageState extends State<ArticleListPage> {
+class ArticleListPageState extends State<ArticleListPage>
+    with AutomaticKeepAliveClientMixin {
   ScrollController _controller = new ScrollController();
   List<article.Datas> _list = [];
   String title = '';
@@ -162,4 +161,7 @@ class ArticleListPageState extends State<ArticleListPage> {
       });
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

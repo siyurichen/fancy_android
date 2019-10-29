@@ -9,6 +9,7 @@ import 'package:fancy_android/model/knowledge_system_model.dart' as system;
 import 'package:fancy_android/model/latest_article_model.dart' as article;
 import 'package:fancy_android/model/project_category_model.dart';
 import 'package:fancy_android/model/we_chat_article_category.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'api.dart';
 
@@ -123,7 +124,7 @@ class HttpMethods {
     try {
       return favoriteArticleModel.Data.fromJson(response?.data['data']);
     } catch (error) {
-      print(error);
+      Fluttertoast.showToast(msg: response?.data['errorMsg']);
       return error;
     }
   }
@@ -134,7 +135,7 @@ class HttpMethods {
     try {
       return response?.data['errorCode'];
     } catch (error) {
-      return response?.data['errorMsg'];
+      return Fluttertoast.showToast(msg: response?.data['errorMsg']);
     }
   }
 }

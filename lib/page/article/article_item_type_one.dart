@@ -1,12 +1,26 @@
-import 'package:fancy_android/util/date_util.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/latest_article_model.dart' as article;
 
-class ArticleItemTypeOne extends StatelessWidget {
+class ArticleItemTypeOne extends StatefulWidget {
   final article.Datas articleModel;
 
   ArticleItemTypeOne({Key key, this.articleModel}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return new ArticleItemTypeOneState();
+  }
+}
+
+class ArticleItemTypeOneState extends State<ArticleItemTypeOne> {
+  article.Datas articleModel;
+
+  @override
+  void initState() {
+    super.initState();
+    articleModel = widget.articleModel;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +49,20 @@ class ArticleItemTypeOne extends StatelessWidget {
               Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(top: 6),
-                child: Text(DateUtil.getTimeDuration(articleModel.publishTime)),
+                child: Text(articleModel.superChapterName +
+                    '/' +
+                    articleModel.chapterName),
               ),
               Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(top: 6),
-                child: Text(articleModel.superChapterName +
-                    '/' +
-                    articleModel.chapterName),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(articleModel.niceDate),
+                    _buildIcon(),
+                  ],
+                ),
               ),
             ],
           ),
@@ -52,6 +72,20 @@ class ArticleItemTypeOne extends StatelessWidget {
               articleModel?.title, articleModel?.collect, articleModel?.id);
         },
       ),
+    );
+  }
+
+  Widget _buildIcon() {
+    return GestureDetector(
+      child: Icon(
+        Icons.favorite,
+        color: articleModel.collect ? Colors.red : Colors.grey,
+      ),
+      onTap: () {
+        setState(() {
+          articleModel.collect = !articleModel.collect;
+        });
+      },
     );
   }
 }

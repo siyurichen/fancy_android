@@ -15,8 +15,6 @@ class WeChatArticlePageState extends State<WeChatArticlePage>
   TabController _tabController;
 
   static List<weChatArticle.Data> _categories = [];
-  var _maxCachePageNum = 5;
-  var _cachedPageNum = 0;
 
   @override
   void initState() {
@@ -86,20 +84,10 @@ class WeChatArticlePageState extends State<WeChatArticlePage>
               "${Api.WE_CHAT_ARTICLE_URL}${category.id}/$page/json");
         },
         itemType: 1,
-        keepAlive: _keepAlive(),
         showAppBar: false,
         startPageIndex: 1,
       );
     })?.toList();
-  }
-
-  bool _keepAlive() {
-    if (_cachedPageNum < _maxCachePageNum) {
-      _cachedPageNum++;
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @override

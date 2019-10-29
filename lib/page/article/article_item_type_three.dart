@@ -1,19 +1,33 @@
-import 'package:fancy_android/util/date_util.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/latest_article_model.dart' as article;
 
-class ArticleItemTypeThree extends StatelessWidget {
+class ArticleItemTypeThree extends StatefulWidget {
   final article.Datas articleModel;
 
   ArticleItemTypeThree({Key key, this.articleModel}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return _buildItem(context, articleModel);
+  State<StatefulWidget> createState() {
+    return new ArticleItemTypeThreeState();
+  }
+}
+
+class ArticleItemTypeThreeState extends State<ArticleItemTypeThree> {
+  article.Datas articleModel;
+
+  @override
+  void initState() {
+    super.initState();
+    articleModel = widget.articleModel;
   }
 
-  Widget _buildItem(BuildContext context, article.Datas article) {
+  @override
+  Widget build(BuildContext context) {
+    return _buildItem(context);
+  }
+
+  Widget _buildItem(BuildContext context) {
     return Card(
       elevation: 5,
       child: InkWell(
@@ -21,33 +35,36 @@ class ArticleItemTypeThree extends StatelessWidget {
           padding: EdgeInsets.all(10),
           child: Column(
             children: <Widget>[
-              _buildTitle(article),
-              _buildCategory(article),
-              _buildAuthorAndRefreshLabel(article),
+              _buildTitle(),
+              _buildCategoryAndAuthor(),
+              _buildUpdateTimeAndFavorite(),
             ],
           ),
         ),
         onTap: () {
-          NavigatorUtil.navigatorWebWithCollect(context, article?.link, article?.title,
-              article?.collect, article?.id);
+          NavigatorUtil.navigatorWebWithCollect(context, articleModel?.link,
+              articleModel?.title, articleModel?.collect, articleModel?.id);
         },
       ),
     );
   }
 
-  Widget _buildTitle(article.Datas article) {
+  Widget _buildTitle() {
     return Container(
       alignment: Alignment.centerLeft,
-      child: Column(
+      child: Row(
         children: <Widget>[
-          Text(
-            article.title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.black54,
-              fontWeight: FontWeight.bold,
+          _buildRefreshLabel(),
+          Expanded(
+            child: Text(
+              articleModel.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -55,58 +72,58 @@ class ArticleItemTypeThree extends StatelessWidget {
     );
   }
 
-  Widget _buildCategory(article.Datas article) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: 10),
-      child: Text(
-        '分类:' + article.superChapterName + ' / ' + article.chapterName,
-        style: TextStyle(fontSize: 12, color: Colors.black54),
-      ),
-    );
-  }
-
-  Widget _buildAuthorAndRefreshLabel(article.Datas article) {
+  Widget _buildCategoryAndAuthor() {
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              _buildRefreshLabel(article),
-              _buildAuthor(article),
-            ],
-          ),
-          _buildUpdateTime(article),
+          _buildCategory(),
+          _buildAuthorAndRefreshLabel(),
         ],
       ),
     );
   }
 
-  Widget _buildAuthor(article.Datas article) {
+  Widget _buildCategory() {
     return Text(
-      article.author.isEmpty
-          ? '分享人:' + article.shareUser
-          : '作者:' + article.author,
+      articleModel.superChapterName + ' / ' + articleModel.chapterName,
+      style: TextStyle(fontSize: 12, color: Colors.black54),
+    );
+  }
+
+  Widget _buildAuthorAndRefreshLabel() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        _buildAuthor(),
+      ],
+    );
+  }
+
+  Widget _buildAuthor() {
+    return Text(
+      articleModel.author.isEmpty
+          ? '分享人:' + articleModel.shareUser
+          : '作者:' + articleModel.author,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(fontSize: 12, color: Colors.black54),
     );
   }
 
-  Widget _buildRefreshLabel(article.Datas article) {
-    if (article.fresh) {
+  Widget _buildRefreshLabel() {
+    if (articleModel.fresh) {
       return Container(
         alignment: Alignment.center,
         decoration:
             BoxDecoration(border: Border.all(color: Colors.red, width: 1)),
-        width: 20,
-        margin: EdgeInsets.only(right: 12),
+        width: 14,
+        margin: EdgeInsets.only(right: 3),
         child: Text(
           '新',
-          style: TextStyle(fontSize: 12, color: Colors.red),
+          style: TextStyle(fontSize: 10, color: Colors.red),
         ),
       );
     } else {
@@ -120,10 +137,29 @@ class ArticleItemTypeThree extends StatelessWidget {
     }
   }
 
-  Widget _buildUpdateTime(article.Datas article) {
-    return Text(
-      '时间:' + DateUtil.getTimeDuration(article.publishTime),
-      style: TextStyle(fontSize: 12, color: Colors.black54),
-    );
+  Widget _buildUpdateTimeAndFavorite() {
+    return Container(
+        alignment: Alignment.centerLeft,
+        margin: EdgeInsets.only(top: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              articleModel.niceDate,
+              style: TextStyle(fontSize: 12, color: Colors.black54),
+            ),
+            GestureDetector(
+              child: Icon(
+                Icons.favorite,
+                color: articleModel.collect ? Colors.red : Colors.grey,
+              ),
+              onTap: () {
+                setState(() {
+                  articleModel.collect = !articleModel.collect;
+                });
+              },
+            ),
+          ],
+        ));
   }
 }

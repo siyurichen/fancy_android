@@ -14,8 +14,6 @@ class ProjectPageState extends State<ProjectPage>
   TabController _tabController;
 
   static List<category.Data> _categories = [];
-  var _maxCachePageNum = 5;
-  var _cachedPageNum = 0;
 
   @override
   void initState() {
@@ -85,20 +83,10 @@ class ProjectPageState extends State<ProjectPage>
               "${Api.PROJECT_URL}$page/json?cid=${category.id}");
         },
         itemType: 2,
-        keepAlive: _keepAlive(),
         showAppBar: false,
         startPageIndex: 1,
       );
     })?.toList();
-  }
-
-  bool _keepAlive() {
-    if (_cachedPageNum < _maxCachePageNum) {
-      _cachedPageNum++;
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @override
