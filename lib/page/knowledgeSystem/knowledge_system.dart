@@ -152,7 +152,7 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
   }
 
   getKnowledgeSystem() async {
-    HttpMethods.getKnowledgeSystem().then((result) {
+    HttpMethods.getInstance().getKnowledgeSystem().then((result) {
       setState(() {
         systems = result.data;
       });

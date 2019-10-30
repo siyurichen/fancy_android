@@ -165,7 +165,7 @@ class SearchPageState extends State<SearchPage> {
   }
 
   getHotSearchKey() async {
-    HttpMethods.getHotSearchKey().then((result) {
+    HttpMethods.getInstance().getHotSearchKey().then((result) {
       setState(() {
         hotKeys.clear();
         hotKeys.addAll(result.data);
@@ -174,7 +174,7 @@ class SearchPageState extends State<SearchPage> {
   }
 
   getCommonUseWebsite() async {
-    HttpMethods.getCommonUseWebsite().then((result) {
+    HttpMethods.getInstance().getCommonUseWebsite().then((result) {
       setState(() {
         commonUseWebsites.clear();
         commonUseWebsites.addAll(result.data);

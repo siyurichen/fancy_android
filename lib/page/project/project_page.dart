@@ -57,7 +57,7 @@ class ProjectPageState extends State<ProjectPage>
   }
 
   getProjectCategory() async {
-    HttpMethods.getProjectCategory().then((result) {
+    HttpMethods.getInstance().getProjectCategory().then((result) {
       if (result.data.length <= 0) return;
       setState(() {
         result.data.forEach((_categoryItemModel) {
@@ -79,8 +79,8 @@ class ProjectPageState extends State<ProjectPage>
     return _categories?.map<Widget>((category) {
       return new ArticleListPage(
         request: (page) {
-          return HttpMethods.getArticle(
-              "${Api.PROJECT_URL}$page/json?cid=${category.id}");
+          return HttpMethods.getInstance()
+              .getArticle("${Api.PROJECT_URL}$page/json?cid=${category.id}");
         },
         itemType: 2,
         showAppBar: false,

@@ -98,7 +98,7 @@ class _BrowserWebView extends State<BrowserWebView> {
     String url = collected
         ? "${Api.CANCEL_FAVORITE_ARTICLE_URL}$articleId/json"
         : "${Api.FAVORITE_ARTICLE_URL}$articleId/json";
-    HttpMethods.doOptionRequest(url).then((result) {
+    HttpMethods.getInstance().doOptionRequest(url).then((result) {
       setState(() {
         if (result == 0) {
           collected = !collected;

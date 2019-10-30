@@ -53,8 +53,8 @@ class _HomePageState extends State<HomePage>
         children: [
           ArticleListPage(
             request: (page) {
-              return HttpMethods.getArticle(
-                  "${Api.LATEST_ARTICLE_URL}$page/json");
+              return HttpMethods.getInstance()
+                  .getArticle("${Api.LATEST_ARTICLE_URL}$page/json");
             },
             itemType: 3,
             showAppBar: false,
@@ -62,8 +62,8 @@ class _HomePageState extends State<HomePage>
           ),
           ArticleListPage(
             request: (page) {
-              return HttpMethods.getArticle(
-                  "${Api.LATEST_ARTICLE_PROJECT_URL}$page/json");
+              return HttpMethods.getInstance()
+                  .getArticle("${Api.LATEST_ARTICLE_PROJECT_URL}$page/json");
             },
             itemType: 2,
             showAppBar: false,
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage>
   }
 
   getBanner() {
-    HttpMethods.getBanner().then((result) {
+    HttpMethods.getInstance().getBanner().then((result) {
       setState(() {
         if (result.data.length <= 0) return;
         banners.clear();

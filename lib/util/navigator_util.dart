@@ -39,7 +39,7 @@ class NavigatorUtil {
       new MaterialPageRoute(builder: (context) {
         return new ArticleListPage(
           request: (page) {
-            return HttpMethods.getArticle(
+            return HttpMethods.getInstance().getArticle(
                 "${Api.KNOWLEDGE_SYSTEM_DETAIL_URL}$page/json?cid=$id");
           },
           itemType: 1,
@@ -53,7 +53,7 @@ class NavigatorUtil {
       new MaterialPageRoute(builder: (context) {
         return new ArticleListPage(
           request: (page) {
-            return HttpMethods.searchArticle(
+            return HttpMethods.getInstance().searchArticle(
                 "${Api.SEARCH_BY_HOT_KEY_URL}$page/json", keyName);
           },
           itemType: 1,

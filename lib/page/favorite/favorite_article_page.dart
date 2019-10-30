@@ -95,7 +95,7 @@ class FavoriteArticlePageState extends State<FavoriteArticlePage> {
   }
 
   getFavoriteArticles(int page) async {
-    HttpMethods.favoriteArticleList(page).then((result) {
+    HttpMethods.getInstance().favoriteArticleList(page).then((result) {
       setState(() {
         _favoriteArticles.clear();
         _favoriteArticles.addAll(result?.datas);

@@ -58,7 +58,7 @@ class WeChatArticlePageState extends State<WeChatArticlePage>
   }
 
   getProjectCategory() async {
-    HttpMethods.getWeChatArticleCategory().then((result) {
+    HttpMethods.getInstance().getWeChatArticleCategory().then((result) {
       if (result.data.length <= 0) return;
       setState(() {
         result.data.forEach((_categoryItemModel) {
@@ -80,7 +80,7 @@ class WeChatArticlePageState extends State<WeChatArticlePage>
     return _categories?.map<Widget>((category) {
       return new ArticleListPage(
         request: (page) {
-          return HttpMethods.getArticle(
+          return HttpMethods.getInstance().getArticle(
               "${Api.WE_CHAT_ARTICLE_URL}${category.id}/$page/json");
         },
         itemType: 1,

@@ -114,7 +114,8 @@ class LoginPageState extends State<LoginPage> {
   }
 
   _login() async {
-    HttpMethods.login(_accountController.text, _pwdController.text)
+    HttpMethods.getInstance()
+        .login(_accountController.text, _pwdController.text)
         .then((result) {
 //      ProviderUtil.consumer<UserModel>(builder: (context, userModel, child) {
 //        userModel.setUserInfo(result);
