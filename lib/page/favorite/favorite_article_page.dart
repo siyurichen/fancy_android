@@ -1,3 +1,4 @@
+import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/favorite_article_model.dart'
     as favoriteArticle;
@@ -62,7 +63,7 @@ class FavoriteArticlePageState extends State<FavoriteArticlePage> {
                 ],
               ),
             ),
-            _buildFavoriteIcon(),
+            _buildFavoriteIcon(favoriteArticle),
           ],
         ),
       ),
@@ -83,15 +84,37 @@ class FavoriteArticlePageState extends State<FavoriteArticlePage> {
     );
   }
 
-  Widget _buildFavoriteIcon() {
-    return Container(
-      alignment: Alignment.centerRight,
-      padding: EdgeInsets.all(10),
-      child: Icon(
-        Icons.favorite,
-        color: Colors.red,
+  Widget _buildFavoriteIcon(favoriteArticle.Datas favoriteArticle) {
+    return GestureDetector(
+      child: Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(10),
+        child: Icon(
+          Icons.favorite,
+          color: Colors.red,
+        ),
       ),
+      onTap: () {
+        cancelFavoriteArticle(favoriteArticle);
+      },
     );
+  }
+
+  ///取消收藏文章
+  cancelFavoriteArticle(favoriteArticle.Datas favoriteArticle) async {
+    int originId = favoriteArticle.originId ?? -1;
+    int articleId = favoriteArticle.id;
+    var params = {'originId': originId};
+    String url = "${Api.CANCEL_FROM_FAVORITE_ARTICLE_URL}$articleId/json";
+    HttpMethods.getInstance()
+        .doOptionRequest(url: url, params: params)
+        .then((result) {
+      setState(() {
+        if (result == 0) {
+          _favoriteArticles.remove(favoriteArticle);
+        }
+      });
+    });
   }
 
   getFavoriteArticles(int page) async {

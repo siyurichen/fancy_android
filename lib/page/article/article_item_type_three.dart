@@ -1,3 +1,6 @@
+import 'package:fancy_android/http/api.dart';
+import 'package:fancy_android/http/http_methods.dart';
+import 'package:fancy_android/page/article/article_favorite_icon.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/latest_article_model.dart' as article;
@@ -148,17 +151,7 @@ class ArticleItemTypeThreeState extends State<ArticleItemTypeThree> {
               articleModel.niceDate,
               style: TextStyle(fontSize: 12, color: Colors.black54),
             ),
-            GestureDetector(
-              child: Icon(
-                Icons.favorite,
-                color: articleModel.collect ? Colors.red : Colors.grey,
-              ),
-              onTap: () {
-                setState(() {
-                  articleModel.collect = !articleModel.collect;
-                });
-              },
-            ),
+            ArticleFavoriteIcon(articleModel: articleModel),
           ],
         ));
   }

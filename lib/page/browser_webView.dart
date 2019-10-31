@@ -41,7 +41,6 @@ class _BrowserWebView extends State<BrowserWebView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget>[_buildFavoriteIcon()],
       ),
       body: WebView(
         initialUrl: widget.url,
@@ -98,7 +97,7 @@ class _BrowserWebView extends State<BrowserWebView> {
     String url = collected
         ? "${Api.CANCEL_FAVORITE_ARTICLE_URL}$articleId/json"
         : "${Api.FAVORITE_ARTICLE_URL}$articleId/json";
-    HttpMethods.getInstance().doOptionRequest(url).then((result) {
+    HttpMethods.getInstance().doOptionRequest(url: url).then((result) {
       setState(() {
         if (result == 0) {
           collected = !collected;

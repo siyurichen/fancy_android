@@ -175,8 +175,8 @@ class HttpMethods {
   }
 
   ///只返回成功或者失败的请求
-  Future doOptionRequest(String url) async {
-    var response = await sendRequest(POST, url, null);
+  Future doOptionRequest({String url, Map<String, dynamic> params}) async {
+    var response = await sendRequest(POST, url, params);
     try {
       return response['errorCode'];
     } catch (error) {

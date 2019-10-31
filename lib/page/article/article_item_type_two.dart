@@ -1,3 +1,4 @@
+import 'package:fancy_android/page/article/article_favorite_icon.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/latest_article_model.dart' as article;
@@ -90,17 +91,7 @@ class ArticleItemTypeTwoState extends State<ArticleItemTypeTwo> {
       margin: EdgeInsets.only(top: 6),
       child: Row(
         children: <Widget>[
-          GestureDetector(
-            child: Icon(
-              Icons.favorite,
-              color: articleModel.collect ? Colors.red : Colors.grey,
-            ),
-            onTap: () {
-              setState(() {
-                articleModel.collect = !articleModel.collect;
-              });
-            },
-          ),
+          ArticleFavoriteIcon(articleModel: articleModel),
           Container(
             padding: EdgeInsets.only(left: 5),
             child: Text(

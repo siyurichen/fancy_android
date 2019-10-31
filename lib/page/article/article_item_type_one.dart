@@ -1,3 +1,4 @@
+import 'package:fancy_android/page/article/article_favorite_icon.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/latest_article_model.dart' as article;
@@ -60,7 +61,7 @@ class ArticleItemTypeOneState extends State<ArticleItemTypeOne> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(articleModel.niceDate),
-                    _buildIcon(),
+                    ArticleFavoriteIcon(articleModel: articleModel),
                   ],
                 ),
               ),
@@ -72,20 +73,6 @@ class ArticleItemTypeOneState extends State<ArticleItemTypeOne> {
               articleModel?.title, articleModel?.collect, articleModel?.id);
         },
       ),
-    );
-  }
-
-  Widget _buildIcon() {
-    return GestureDetector(
-      child: Icon(
-        Icons.favorite,
-        color: articleModel.collect ? Colors.red : Colors.grey,
-      ),
-      onTap: () {
-        setState(() {
-          articleModel.collect = !articleModel.collect;
-        });
-      },
     );
   }
 }

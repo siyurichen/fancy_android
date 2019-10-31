@@ -16,5 +16,10 @@ class Api {
   static const String REGISTER_URL = 'user/register/';
   static const String FAVORITE_ARTICLE_LIST_URL = 'lg/collect/list/';
   static const String FAVORITE_ARTICLE_URL = 'lg/collect/';
+
+  ///列表取消收藏
   static const String CANCEL_FAVORITE_ARTICLE_URL = 'lg/uncollect_originId/';
+
+  ///我的收藏页面取消收藏
+  static const String CANCEL_FROM_FAVORITE_ARTICLE_URL = 'lg/uncollect/';
 }
