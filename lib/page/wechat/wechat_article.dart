@@ -3,6 +3,8 @@ import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/we_chat_article_category.dart'
     as weChatArticle;
 import 'package:fancy_android/page/article/article_list_page.dart';
+import 'package:fancy_android/page/article/common_article_list_page.dart';
+import 'package:fancy_android/util/constant_util.dart';
 import 'package:flutter/material.dart';
 
 class WeChatArticlePage extends StatefulWidget {
@@ -78,14 +80,14 @@ class WeChatArticlePageState extends State<WeChatArticlePage>
 
   List<Widget> _buildContent() {
     return _categories?.map<Widget>((category) {
-      return new ArticleListPage(
+      return new CommonArticleListPage(
         request: (page) {
           return HttpMethods.getInstance().getArticle(
               "${Api.WE_CHAT_ARTICLE_URL}${category.id}/$page/json");
         },
-        itemType: 1,
-        showAppBar: false,
-        startPageIndex: 1,
+        itemType: ConstantUtil.ARTICLE_ITEM_TYPE_ONE,
+        page: 1,
+        pageSize: 15,
       );
     })?.toList();
   }

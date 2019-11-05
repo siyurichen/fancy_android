@@ -1,6 +1,7 @@
 import 'package:fancy_android/page/article/article_item_type_one.dart';
 import 'package:fancy_android/page/article/article_item_type_three.dart';
 import 'package:fancy_android/page/article/article_item_type_two.dart';
+import 'package:fancy_android/util/constant_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/latest_article_model.dart' as article;
 
@@ -19,18 +20,17 @@ class ArticleItemPage extends StatefulWidget {
 }
 
 class ArticleItemPageState extends State<ArticleItemPage> {
-
   @override
   Widget build(BuildContext context) {
     return _buildListViewItem(context);
   }
 
   Widget _buildListViewItem(BuildContext context) {
-    if (widget.itemType == 2) {
+    if (widget.itemType == ConstantUtil.ARTICLE_ITEM_TYPE_TWO) {
       return ArticleItemTypeTwo(
         articleModel: widget.articleModel,
       );
-    } else if (widget.itemType == 3) {
+    } else if (widget.itemType == ConstantUtil.ARTICLE_ITEM_TYPE_THREE) {
       return ArticleItemTypeThree(
         articleModel: widget.articleModel,
       );

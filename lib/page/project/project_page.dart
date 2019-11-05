@@ -1,7 +1,8 @@
 import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/project_category_model.dart' as category;
-import 'package:fancy_android/page/article/article_list_page.dart';
+import 'package:fancy_android/page/article/common_article_list_page.dart';
+import 'package:fancy_android/util/constant_util.dart';
 import 'package:flutter/material.dart';
 
 class ProjectPage extends StatefulWidget {
@@ -77,14 +78,14 @@ class ProjectPageState extends State<ProjectPage>
 
   List<Widget> _buildContent() {
     return _categories?.map<Widget>((category) {
-      return new ArticleListPage(
+      return CommonArticleListPage(
         request: (page) {
           return HttpMethods.getInstance()
               .getArticle("${Api.PROJECT_URL}$page/json?cid=${category.id}");
         },
-        itemType: 2,
-        showAppBar: false,
-        startPageIndex: 1,
+        itemType: ConstantUtil.ARTICLE_ITEM_TYPE_TWO,
+        page: 1,
+        pageSize: 15,
       );
     })?.toList();
   }

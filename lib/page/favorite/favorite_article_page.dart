@@ -3,6 +3,7 @@ import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/favorite_article_model.dart'
     as favoriteArticle;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class FavoriteArticlePage extends StatefulWidget {
   @override
@@ -123,6 +124,8 @@ class FavoriteArticlePageState extends State<FavoriteArticlePage> {
         _favoriteArticles.clear();
         _favoriteArticles.addAll(result?.datas);
       });
+    }).catchError((error) {
+      print('mikechen error:' + error.toString());
     });
   }
 }

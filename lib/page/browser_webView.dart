@@ -1,9 +1,7 @@
 import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
-import 'package:fancy_android/model/latest_article_model.dart' as articleModel;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BrowserWebView extends StatefulWidget {
@@ -28,12 +26,13 @@ class BrowserWebView extends StatefulWidget {
 
 class _BrowserWebView extends State<BrowserWebView> {
   WebViewController _webViewController;
-  bool collected;
+  bool _collected;
+  bool _offState = false;
 
   @override
   void initState() {
     super.initState();
-    collected = widget.isCollect;
+    _collected = widget.isCollect;
   }
 
   @override
@@ -42,26 +41,43 @@ class _BrowserWebView extends State<BrowserWebView> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: WebView(
-        initialUrl: widget.url,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (controller) {
-          _webViewController = controller;
-        },
-        onPageFinished: (url) {
-          _webViewController.evaluateJavascript(_flutterCallJsString());
-        },
-        navigationDelegate: (NavigationRequest request) {
-          if (request.url.startsWith("sce")) {
-            print("即将打开" + request.url);
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-        javascriptChannels: <JavascriptChannel>[
-          _jSCallFlutter(context),
-        ].toSet(),
+      body: Stack(
+        children: <Widget>[
+          _buildWebView(),
+          Offstage(
+            offstage: _offState,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildWebView() {
+    return WebView(
+      initialUrl: widget.url,
+      javascriptMode: JavascriptMode.unrestricted,
+      onWebViewCreated: (controller) {
+        _webViewController = controller;
+      },
+      onPageFinished: (url) {
+        setState(() {
+          _offState = true;
+        });
+        _webViewController.evaluateJavascript(_flutterCallJsString());
+      },
+      navigationDelegate: (NavigationRequest request) {
+        if (request.url.startsWith("sce")) {
+          print("即将打开" + request.url);
+          return NavigationDecision.prevent;
+        }
+        return NavigationDecision.navigate;
+      },
+      javascriptChannels: <JavascriptChannel>[
+        _jSCallFlutter(context),
+      ].toSet(),
     );
   }
 
@@ -80,7 +96,7 @@ class _BrowserWebView extends State<BrowserWebView> {
   }
 
   Widget _buildIcon() {
-    if (collected) {
+    if (_collected) {
       return Icon(
         Icons.favorite,
         color: Colors.red,
@@ -94,13 +110,13 @@ class _BrowserWebView extends State<BrowserWebView> {
 
   ///取消或者收藏文章
   cancelOrFavoriteArticle(int articleId) async {
-    String url = collected
+    String url = _collected
         ? "${Api.CANCEL_FAVORITE_ARTICLE_URL}$articleId/json"
         : "${Api.FAVORITE_ARTICLE_URL}$articleId/json";
     HttpMethods.getInstance().doOptionRequest(url: url).then((result) {
       setState(() {
         if (result == 0) {
-          collected = !collected;
+          _collected = !_collected;
         }
       });
     });

@@ -69,6 +69,7 @@ class ArticleListPageState extends State<ArticleListPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     int itemCount = _calculateItemCount();
     ListView listView = _buildListView(context, itemCount);
     RefreshIndicator refreshIndicator = RefreshIndicator(

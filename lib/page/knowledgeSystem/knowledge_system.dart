@@ -1,5 +1,7 @@
+import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/knowledge_system_model.dart' as system;
+import 'package:fancy_android/util/constant_util.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 
@@ -146,7 +148,15 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
         ),
       ),
       onTap: () {
-        NavigatorUtil.navigatorKnowledgeDetail(context, children.id);
+        NavigatorUtil.navigatorCommonArticle(
+          context,
+          children.name,
+          ConstantUtil.ARTICLE_ITEM_TYPE_ONE,
+          (page) {
+            return HttpMethods.getInstance().getArticle(
+                "${Api.KNOWLEDGE_SYSTEM_DETAIL_URL}$page/json?cid=${children.id}");
+          },
+        );
       },
     );
   }

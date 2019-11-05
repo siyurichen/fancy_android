@@ -1,10 +1,9 @@
-import 'package:fancy_android/http/api.dart';
-import 'package:fancy_android/http/http_methods.dart';
-import 'package:fancy_android/page/article/article_list_page.dart';
+import 'package:fancy_android/page/article/common_article_list_page.dart';
 import 'package:fancy_android/page/browser_webView.dart';
 import 'package:fancy_android/page/favorite/favorite_article_page.dart';
 import 'package:fancy_android/page/login/login.dart';
 import 'package:fancy_android/page/search/search_page.dart';
+import 'package:fancy_android/model/latest_article_model.dart' as article;
 import 'package:flutter/material.dart';
 
 class NavigatorUtil {
@@ -34,29 +33,14 @@ class NavigatorUtil {
     );
   }
 
-  static navigatorKnowledgeDetail(BuildContext context, int id) {
+  static navigatorCommonArticle(BuildContext context, String title,
+      int itemType, Future<article.Data> Function(int) request) {
     Navigator.of(context).push(
       new MaterialPageRoute(builder: (context) {
-        return new ArticleListPage(
-          request: (page) {
-            return HttpMethods.getInstance().getArticle(
-                "${Api.KNOWLEDGE_SYSTEM_DETAIL_URL}$page/json?cid=$id");
-          },
-          itemType: 1,
-        );
-      }),
-    );
-  }
-
-  static navigatorSearchResult(BuildContext context, String keyName) {
-    Navigator.of(context).push(
-      new MaterialPageRoute(builder: (context) {
-        return new ArticleListPage(
-          request: (page) {
-            return HttpMethods.getInstance().searchArticle(
-                "${Api.SEARCH_BY_HOT_KEY_URL}$page/json", keyName);
-          },
-          itemType: 1,
+        return new CommonArticleListPage(
+          request: request,
+          title: title,
+          itemType: itemType,
         );
       }),
     );
