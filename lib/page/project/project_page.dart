@@ -34,7 +34,6 @@ class ProjectPageState extends State<ProjectPage>
     return Scaffold(
       appBar: AppBar(
         title: _buildTabBar(),
-        backgroundColor: Colors.blue,
       ),
       body: TabBarView(
         controller: _tabController,

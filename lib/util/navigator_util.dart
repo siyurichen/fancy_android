@@ -4,6 +4,7 @@ import 'package:fancy_android/page/favorite/favorite_article_page.dart';
 import 'package:fancy_android/page/login/login.dart';
 import 'package:fancy_android/page/search/search_page.dart';
 import 'package:fancy_android/model/latest_article_model.dart' as article;
+import 'package:fancy_android/page/setting_page.dart';
 import 'package:flutter/material.dart';
 
 class NavigatorUtil {
@@ -61,6 +62,12 @@ class NavigatorUtil {
   static navigatorFavoriteArticle(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
       return new FavoriteArticlePage();
+    }));
+  }
+
+  static navigatorSettingPage(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+      return new SettingPage();
     }));
   }
 }

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferencesUtil {
   static const String SHARE_PREF_USERNAME = 'userName';
   static const String SHARE_PREF_COOKIE = 'cookie';
+  static const String SHARE_THEME_COLOR = 'theme_color';
 
   static put(String key, dynamic value) async {
     var sharePrefs = await SharedPreferences.getInstance();
@@ -22,5 +23,10 @@ class SharedPreferencesUtil {
   static get(String key) async {
     var sharePrefs = await SharedPreferences.getInstance();
     return sharePrefs.get(key);
+  }
+
+  static getString(String key, {String defValue = ''}) async {
+    var sharePrefs = await SharedPreferences.getInstance();
+    return sharePrefs.getString(key) ?? defValue;
   }
 }

@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new LoginPageState();
+  State<StatefulWidget> createState() => new _LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   final _accountController = TextEditingController();
   final _pwdController = TextEditingController();
 
@@ -64,7 +64,7 @@ class LoginPageState extends State<LoginPage> {
     return GestureDetector(
       child: Card(
         margin: EdgeInsets.all(10),
-        color: Colors.blue,
+        color: Theme.of(context).primaryColor,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(100))),
         elevation: 5,
@@ -96,7 +96,7 @@ class LoginPageState extends State<LoginPage> {
           '还不是用户？注册',
           style: TextStyle(
             fontSize: 16,
-            color: Colors.blue,
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
           ),
         ),

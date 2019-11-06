@@ -34,7 +34,8 @@ class ArticleFavoriteIconState extends State<ArticleFavoriteIcon> {
     return GestureDetector(
       child: Icon(
         Icons.favorite,
-        color: articleModel.collect ? Colors.red : Colors.grey,
+        color:
+            articleModel.collect ? Theme.of(context).primaryColor : Colors.grey,
       ),
       onTap: () {
         cancelOrFavoriteArticle(articleModel.id);

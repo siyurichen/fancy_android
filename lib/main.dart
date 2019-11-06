@@ -1,24 +1,59 @@
+import 'package:fancy_android/model/theme_color_model.dart';
 import 'package:fancy_android/model/user_model.dart';
 import 'package:fancy_android/page/Home/home_page.dart';
 import 'package:fancy_android/page/KnowledgeSystem/knowledge_system.dart';
 import 'package:fancy_android/page/Project/project_page.dart';
 import 'package:fancy_android/page/wechat/wechat_article.dart';
+import 'package:fancy_android/util/constant_util.dart';
 import 'package:fancy_android/util/navigator_util.dart';
 import 'package:fancy_android/util/provider_util.dart';
+import 'package:fancy_android/util/sharedPreferences_util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:fancy_android/model/latest_article_model.dart' as articleModel;
 
-void main() => runApp(MyApp());
+void main() async {
+  String colorKey = await SharedPreferencesUtil.getString(
+      SharedPreferencesUtil.SHARE_THEME_COLOR,
+      defValue: 'blue');
+  runApp(MyApp(
+    themeColorKey: colorKey,
+  ));
+}
 
 class MyApp extends StatelessWidget {
+  final String themeColorKey;
+
+  MyApp({Key key, this.themeColorKey}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return ProviderUtil.init(
-      context: context,
-      child: MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+    Color _themeColor;
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(builder: (_) => UserModel(null, -1, '')),
+        ChangeNotifierProvider(
+          builder: (_) => articleModel.Datas.origin(),
         ),
-        home: MyHomePage(),
+        ChangeNotifierProvider.value(value: ThemeColorModel()),
+      ],
+      child: Consumer<ThemeColorModel>(
+        builder: (context, themeColorModel, _) {
+          String colorKey = themeColorModel.themeColor ?? themeColorKey;
+          if (null != ConstantUtil.themeColorMap[colorKey]) {
+            _themeColor = ConstantUtil.themeColorMap[colorKey];
+          }
+
+          return MaterialApp(
+            theme: ThemeData.light().copyWith(
+              primaryColor: _themeColor,
+              accentColor: _themeColor,
+              indicatorColor: _themeColor,
+            ),
+            home: MyHomePage(),
+          );
+        },
       ),
     );
   }
@@ -66,7 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.people), title: Text('公众号')),
         ],
         currentIndex: _selectIndex,
-        fixedColor: Colors.blue,
         onTap: _onTap,
       ),
       drawer: Drawer(
@@ -75,7 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
             UserAccountsDrawerHeader(
               accountName: ProviderUtil.consumer<UserModel>(
                   builder: (context, userModel, child) {
-                return Text(userModel.data == null ? '' : userModel.data.nickname);
+                return Text(
+                    userModel.data == null ? '' : userModel.data.nickname);
               }),
               accountEmail: Text('test@126.com'),
               currentAccountPicture: GestureDetector(
@@ -88,27 +123,35 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               margin: EdgeInsets.zero,
             ),
-            InkWell(
-              child: Container(
-                color: Colors.lightBlue,
-                height: 50,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(left: 15),
-                child: Text(
-                  '我的收藏',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              onTap: () {
-                NavigatorUtil.navigatorFavoriteArticle(context);
-              },
-            ),
+            _buildDrawerItem('我的收藏'),
+            _buildDrawerItem('设置'),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDrawerItem(String itemText) {
+    return InkWell(
+      child: Container(
+        height: 50,
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(left: 15),
+        child: Text(
+          itemText,
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+          ),
+        ),
+      ),
+      onTap: () {
+        if ('我的收藏' == itemText) {
+          NavigatorUtil.navigatorFavoriteArticle(context);
+        } else if ('设置' == itemText) {
+          NavigatorUtil.navigatorSettingPage(context);
+        }
+      },
     );
   }
 

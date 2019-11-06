@@ -105,7 +105,7 @@ class SearchPageState extends State<SearchPage> {
               subTitle,
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
