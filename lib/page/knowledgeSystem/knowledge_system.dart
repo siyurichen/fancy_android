@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/knowledge_system_model.dart' as system;
@@ -8,11 +10,11 @@ import 'package:flutter/material.dart';
 class KnowledgeSystem extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new KnowledgeSystemState();
+    return new _KnowledgeSystemState();
   }
 }
 
-class KnowledgeSystemState extends State<KnowledgeSystem> {
+class _KnowledgeSystemState extends State<KnowledgeSystem> {
   List<system.Data> systems = [];
   ScrollController scrollController = new ScrollController();
   bool isShowBtn = false; //点击回到顶部按钮是否显示
@@ -20,7 +22,7 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
   @override
   void initState() {
     super.initState();
-    getKnowledgeSystem();
+    _getKnowledgeSystem();
     scrollController.addListener(() {
       if (scrollController.offset < 1000 && isShowBtn) {
         setState(() {
@@ -52,7 +54,10 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
       body: _buildListViewBuilder(),
       floatingActionButton: isShowBtn
           ? FloatingActionButton(
-              child: Icon(Icons.arrow_upward),
+              backgroundColor: Theme.of(context).primaryColor,
+              child: Icon(
+                Icons.arrow_upward,
+              ),
               onPressed: () {
                 scrollController.animateTo(.0,
                     duration: Duration(milliseconds: 300), curve: Curves.ease);
@@ -130,22 +135,20 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
 
   Widget _buildLabel(system.Children children) {
     return GestureDetector(
-      child: Container(
-        constraints: BoxConstraints(
-          minWidth: 40,
-        ),
-        padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-        decoration: BoxDecoration(
-          color: Colors.blue[100],
-          borderRadius: BorderRadius.circular((20.0)),
-        ),
-        child: Text(
-          children.name,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.black,
+      child: ClipRRect(
+        child: Container(
+          padding: EdgeInsets.all(6),
+          child: Text(
+            children.name,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+              shadows: [Shadow(color: Colors.grey, offset: Offset(0.2, 0.2))],
+            ),
           ),
+          color: _getRandomColor(),
         ),
+        borderRadius: BorderRadius.circular(20),
       ),
       onTap: () {
         NavigatorUtil.navigatorCommonArticle(
@@ -161,7 +164,12 @@ class KnowledgeSystemState extends State<KnowledgeSystem> {
     );
   }
 
-  getKnowledgeSystem() async {
+  _getRandomColor() {
+    return Color.fromARGB(255, Random.secure().nextInt(255),
+        Random.secure().nextInt(255), Random.secure().nextInt(255));
+  }
+
+  _getKnowledgeSystem() async {
     HttpMethods.getInstance().getKnowledgeSystem().then((result) {
       setState(() {
         systems = result.data;

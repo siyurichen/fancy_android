@@ -29,4 +29,14 @@ class SharedPreferencesUtil {
     var sharePrefs = await SharedPreferences.getInstance();
     return sharePrefs.getString(key) ?? defValue;
   }
+
+  static getBool(String key, {bool defValue = false}) async {
+    var sharePrefs = await SharedPreferences.getInstance();
+    return sharePrefs.getBool(key) ?? defValue;
+  }
+
+  static getInt(String key, {int defValue = 0}) async {
+    var sharePrefs = await SharedPreferences.getInstance();
+    return sharePrefs.getInt(key) ?? defValue;
+  }
 }

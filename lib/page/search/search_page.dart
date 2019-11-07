@@ -11,10 +11,10 @@ class SearchPage extends StatefulWidget {
   SearchPage({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new SearchPageState();
+  State<StatefulWidget> createState() => new _SearchPageState();
 }
 
-class SearchPageState extends State<SearchPage> {
+class _SearchPageState extends State<SearchPage> {
   List<hotSearchKey.Data> hotKeys = [];
   List<commonUseWebsite.Data> commonUseWebsites = [];
 

@@ -169,7 +169,7 @@ class HttpMethods {
     try {
       return favoriteArticleModel.Data.fromJson(response['data']);
     } catch (error) {
-      throw response;
+      throw response['errorCode'];
     }
   }
 

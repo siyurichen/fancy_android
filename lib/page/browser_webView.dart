@@ -47,7 +47,13 @@ class _BrowserWebView extends State<BrowserWebView> {
           Offstage(
             offstage: _offState,
             child: Center(
-              child: CircularProgressIndicator(),
+              child: SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              ),
             ),
           ),
         ],

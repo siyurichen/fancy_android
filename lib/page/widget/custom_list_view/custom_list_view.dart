@@ -2,8 +2,8 @@ import 'package:fancy_android/page/widget/custom_list_view/default_load_widget.d
 import 'package:fancy_android/page/widget/custom_list_view/load_more_widget.dart';
 import 'package:flutter/material.dart';
 
-typedef Future<List<T>> PageRequest<T>(int page, int pageSize);
-typedef Widget ItemBuilder<T>(List<T> list, int position);
+typedef PageRequest<T> = Future<List<T>> Function(int page, int pageSize);
+typedef ItemBuilder<T> = Widget Function(List<T> list, int position);
 
 class CustomListView<T> extends StatefulWidget {
   final Widget header;

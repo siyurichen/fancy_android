@@ -63,8 +63,8 @@ class _BannerWidgetState extends State<BannerWidget> {
         itemCount: _banners?.length,
         pagination: SwiperPagination(
           builder: DotSwiperPaginationBuilder(
-            color: Colors.lightBlue[50],
-            activeColor: Colors.blue,
+            color: Colors.grey[50],
+            activeColor: Theme.of(context).primaryColor,
             size: 8,
           ),
         ),

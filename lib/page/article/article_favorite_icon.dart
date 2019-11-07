@@ -1,5 +1,6 @@
 import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
+import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_android/model/latest_article_model.dart' as article;
 
@@ -52,6 +53,8 @@ class ArticleFavoriteIconState extends State<ArticleFavoriteIcon> {
       setState(() {
         if (result == 0) {
           articleModel.collect = !articleModel.collect;
+        } else if (result == -1001) {
+          NavigatorUtil.navigatorLogin(context);
         }
       });
     });

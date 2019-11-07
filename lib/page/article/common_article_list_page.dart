@@ -3,8 +3,7 @@ import 'package:fancy_android/page/article/article_item_page.dart';
 import 'package:fancy_android/page/widget/custom_list_view/custom_list_view.dart';
 import 'package:flutter/material.dart';
 
-typedef Future<articleModel.Data> RequestData(int page);
-typedef Widget Header<T>();
+typedef Request= Future<articleModel.Data> Function(int page);
 
 class CommonArticleListPage<T> extends StatefulWidget {
   final Widget header;
@@ -13,7 +12,7 @@ class CommonArticleListPage<T> extends StatefulWidget {
   final int itemType;
   final int page;
   final int pageSize;
-  final RequestData request;
+  final Request request;
 
   CommonArticleListPage({
     Key key,

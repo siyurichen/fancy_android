@@ -6,7 +6,6 @@ import 'package:fancy_android/page/Project/project_page.dart';
 import 'package:fancy_android/page/wechat/wechat_article.dart';
 import 'package:fancy_android/util/constant_util.dart';
 import 'package:fancy_android/util/navigator_util.dart';
-import 'package:fancy_android/util/provider_util.dart';
 import 'package:fancy_android/util/sharedPreferences_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -107,8 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: ProviderUtil.consumer<UserModel>(
-                  builder: (context, userModel, child) {
+              accountName:
+                  Consumer<UserModel>(builder: (context, userModel, child) {
                 return Text(
                     userModel.data == null ? '' : userModel.data.nickname);
               }),
@@ -123,28 +122,38 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               margin: EdgeInsets.zero,
             ),
-            _buildDrawerItem('我的收藏'),
-            _buildDrawerItem('设置'),
+            _buildDrawerItem('我的收藏', Icons.favorite),
+            _buildDrawerItem('设置', Icons.settings),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDrawerItem(String itemText) {
+  Widget _buildDrawerItem(String itemText, IconData icon) {
     return InkWell(
       child: Container(
-        height: 50,
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.only(left: 15),
-        child: Text(
-          itemText,
-          style: TextStyle(
-            fontSize: 15,
-            color: Colors.black,
-          ),
-        ),
-      ),
+          height: 50,
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.only(left: 15),
+          child: Row(
+            children: <Widget>[
+              Icon(
+                icon,
+                color: Theme.of(context).primaryColor,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 6),
+                child: Text(
+                  itemText,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          )),
       onTap: () {
         if ('我的收藏' == itemText) {
           NavigatorUtil.navigatorFavoriteArticle(context);

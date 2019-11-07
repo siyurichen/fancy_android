@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 
 class ProjectPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new ProjectPageState();
+  State<StatefulWidget> createState() => new _ProjectPageState();
 }
 
-class ProjectPageState extends State<ProjectPage>
+class _ProjectPageState extends State<ProjectPage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
 

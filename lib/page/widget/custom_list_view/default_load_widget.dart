@@ -10,7 +10,13 @@ class _DefaultLoadWidgetState extends State<DefaultLoadWidget> {
   Widget build(BuildContext context) {
     return new Container(
       child: new Center(
-        child: new CircularProgressIndicator(),
+        child: SizedBox(
+          width: 18,
+          height: 18,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+          ),
+        ),
       ),
     );
   }

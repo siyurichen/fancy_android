@@ -2,17 +2,16 @@ import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/we_chat_article_category.dart'
     as weChatArticle;
-import 'package:fancy_android/page/article/article_list_page.dart';
 import 'package:fancy_android/page/article/common_article_list_page.dart';
 import 'package:fancy_android/util/constant_util.dart';
 import 'package:flutter/material.dart';
 
 class WeChatArticlePage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new WeChatArticlePageState();
+  State<StatefulWidget> createState() => new _WeChatArticlePageState();
 }
 
-class WeChatArticlePageState extends State<WeChatArticlePage>
+class _WeChatArticlePageState extends State<WeChatArticlePage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
 

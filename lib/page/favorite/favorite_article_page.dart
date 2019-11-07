@@ -2,15 +2,16 @@ import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/favorite_article_model.dart'
     as favoriteArticle;
+import 'package:fancy_android/util/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class FavoriteArticlePage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new FavoriteArticlePageState();
+  State<StatefulWidget> createState() => new _FavoriteArticlePageState();
 }
 
-class FavoriteArticlePageState extends State<FavoriteArticlePage> {
+class _FavoriteArticlePageState extends State<FavoriteArticlePage> {
   List<favoriteArticle.Datas> _favoriteArticles = [];
 
   @override
@@ -113,6 +114,8 @@ class FavoriteArticlePageState extends State<FavoriteArticlePage> {
       setState(() {
         if (result == 0) {
           _favoriteArticles.remove(favoriteArticle);
+        } else if (result == -1001) {
+          NavigatorUtil.navigatorLogin(context);
         }
       });
     });
@@ -125,7 +128,9 @@ class FavoriteArticlePageState extends State<FavoriteArticlePage> {
         _favoriteArticles.addAll(result?.datas);
       });
     }).catchError((error) {
-      print('mikechen error:' + error.toString());
+      if (error == -1001) {
+        NavigatorUtil.navigatorLogin(context);
+      }
     });
   }
 }
