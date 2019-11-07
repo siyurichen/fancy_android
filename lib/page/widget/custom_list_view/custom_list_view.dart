@@ -1,4 +1,4 @@
-import 'package:fancy_android/page/widget/custom_list_view/default_load_widget.dart';
+import 'package:fancy_android/page/widget/default_loading_widget.dart';
 import 'package:fancy_android/page/widget/custom_list_view/load_more_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -116,7 +116,7 @@ class _CustomListViewState<T> extends State<CustomListView<T>> {
           }
         } else {
           _showLoading = true;
-          return new DefaultLoadWidget();
+          return DefaultLoadingWidget();
         }
       },
       future: _future,

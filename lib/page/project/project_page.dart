@@ -2,6 +2,7 @@ import 'package:fancy_android/http/api.dart';
 import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/project_category_model.dart' as category;
 import 'package:fancy_android/page/article/common_article_list_page.dart';
+import 'package:fancy_android/page/widget/default_loading_widget.dart';
 import 'package:fancy_android/util/constant_util.dart';
 import 'package:flutter/material.dart';
 
@@ -31,15 +32,19 @@ class _ProjectPageState extends State<ProjectPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: _buildTabBar(),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: _buildContent(),
-      ),
-    );
+    if (_categories.length <= 0) {
+      return DefaultLoadingWidget();
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: _buildTabBar(),
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: _buildContent(),
+        ),
+      );
+    }
   }
 
   PreferredSizeWidget _buildTabBar() {

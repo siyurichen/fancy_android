@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class DefaultLoadWidget extends StatefulWidget {
+class DefaultLoadingWidget extends StatefulWidget {
   @override
   _DefaultLoadWidgetState createState() => new _DefaultLoadWidgetState();
 }
 
-class _DefaultLoadWidgetState extends State<DefaultLoadWidget> {
+class _DefaultLoadWidgetState extends State<DefaultLoadingWidget> {
   @override
   Widget build(BuildContext context) {
     return new Container(

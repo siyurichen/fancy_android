@@ -66,27 +66,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectIndex = 0;
-  List<Widget> _list = List();
+  int _currentIndex = 0;
+  List<Widget> _pages = List();
   List<String> tabs = ['玩安卓', '发现', '知识体系', '公众号'];
+  PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-    _list
+    _pages
       ..add(HomePage())
       ..add(ProjectPage())
       ..add(KnowledgeSystem())
       ..add(WeChatArticlePage());
+    _pageController = PageController(initialPage: this._currentIndex);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: IndexedStack(
-        index: _selectIndex,
-        children: _list,
+      body: PageView(
+        controller: _pageController,
+        children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -99,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.category), title: Text('体系')),
           BottomNavigationBarItem(icon: Icon(Icons.people), title: Text('公众号')),
         ],
-        currentIndex: _selectIndex,
+        currentIndex: _currentIndex,
         onTap: _onTap,
       ),
       drawer: Drawer(
@@ -168,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return AppBar(
       centerTitle: true,
       title: Text(
-        tabs[_selectIndex],
+        tabs[_currentIndex],
       ),
       actions: <Widget>[
         IconButton(
@@ -182,7 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onTap(int index) {
     setState(() {
-      _selectIndex = index;
+      _currentIndex = index;
+      _pageController.jumpToPage(this._currentIndex);
     });
   }
 }

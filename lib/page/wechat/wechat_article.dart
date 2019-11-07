@@ -3,6 +3,7 @@ import 'package:fancy_android/http/http_methods.dart';
 import 'package:fancy_android/model/we_chat_article_category.dart'
     as weChatArticle;
 import 'package:fancy_android/page/article/common_article_list_page.dart';
+import 'package:fancy_android/page/widget/default_loading_widget.dart';
 import 'package:fancy_android/util/constant_util.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +13,7 @@ class WeChatArticlePage extends StatefulWidget {
 }
 
 class _WeChatArticlePageState extends State<WeChatArticlePage>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  TabController _tabController;
-
+    with AutomaticKeepAliveClientMixin {
   static List<weChatArticle.Data> _categories = [];
 
   @override
@@ -25,34 +24,33 @@ class _WeChatArticlePageState extends State<WeChatArticlePage>
 
   @override
   void dispose() {
-    _tabController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: _buildTabBar(),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: _buildContent(),
-      ),
-    );
+    if (_categories.length <= 0) {
+      return DefaultLoadingWidget();
+    } else {
+      return DefaultTabController(
+        length: _categories.length,
+        initialIndex: 0,
+        child: Scaffold(
+          appBar: AppBar(
+            title: _buildTabBar(),
+          ),
+          body: TabBarView(
+            children: _buildContent(),
+          ),
+        ),
+      );
+    }
   }
 
   PreferredSizeWidget _buildTabBar() {
-    if (_categories.length <= 0) {
-      return null;
-    }
-    if (null == _tabController) {
-      _tabController = TabController(vsync: this, length: _categories.length);
-    }
     return TabBar(
       isScrollable: true,
-      controller: _tabController,
       tabs: _buildTabs(),
     );
   }
@@ -69,25 +67,25 @@ class _WeChatArticlePageState extends State<WeChatArticlePage>
   }
 
   List<Widget> _buildTabs() {
-    return _categories?.map((category) {
-      return Tab(
-        text: category.name,
-      );
-    })?.toList();
+    return List.generate(
+        _categories.length,
+        (index) => Tab(
+              text: _categories[index].name,
+            ));
   }
 
   List<Widget> _buildContent() {
-    return _categories?.map<Widget>((category) {
-      return new CommonArticleListPage(
-        request: (page) {
-          return HttpMethods.getInstance().getArticle(
-              "${Api.WE_CHAT_ARTICLE_URL}${category.id}/$page/json");
-        },
-        itemType: ConstantUtil.ARTICLE_ITEM_TYPE_ONE,
-        page: 1,
-        pageSize: 15,
-      );
-    })?.toList();
+    return List.generate(
+        _categories.length,
+        (index) => CommonArticleListPage(
+              request: (page) {
+                return HttpMethods.getInstance().getArticle(
+                    "${Api.WE_CHAT_ARTICLE_URL}${_categories[index].id}/$page/json");
+              },
+              itemType: ConstantUtil.ARTICLE_ITEM_TYPE_ONE,
+              page: 1,
+              pageSize: 15,
+            ));
   }
 
   @override

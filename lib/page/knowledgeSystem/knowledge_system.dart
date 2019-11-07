@@ -14,7 +14,8 @@ class KnowledgeSystem extends StatefulWidget {
   }
 }
 
-class _KnowledgeSystemState extends State<KnowledgeSystem> {
+class _KnowledgeSystemState extends State<KnowledgeSystem>
+    with AutomaticKeepAliveClientMixin {
   List<system.Data> systems = [];
   ScrollController scrollController = new ScrollController();
   bool isShowBtn = false; //点击回到顶部按钮是否显示
@@ -176,4 +177,7 @@ class _KnowledgeSystemState extends State<KnowledgeSystem> {
       });
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
